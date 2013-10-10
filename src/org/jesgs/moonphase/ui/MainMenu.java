@@ -1,16 +1,22 @@
 package org.jesgs.moonphase.ui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+
 /**
  *
  * @author Jess Green <jgreen@periscope.com>
  */
-public class MainMenu extends javax.swing.JFrame {
+public class MainMenu extends JFrame implements ActionListener {
 
     /**
      * Creates new form MainMenu
      */
     public MainMenu() {
         initComponents();
+        componentEvents();
     }
 
     /**
@@ -22,21 +28,53 @@ public class MainMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jbMoonAge = new javax.swing.JButton();
+        jbCalendar = new javax.swing.JButton();
+        jbChart = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jbMoonAge.setText("Current Age of the Moon");
+        jbMoonAge.setActionCommand("getMoonAge");
+
+        jbCalendar.setText("Calendar");
+        jbCalendar.setActionCommand("getCalendar");
+
+        jbChart.setText("Moon/Earth Distance");
+        jbChart.setActionCommand("getDistance");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 400, Short.MAX_VALUE)
+            .add(layout.createSequentialGroup()
+                .add(46, 46, 46)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jbChart)
+                    .add(jbCalendar)
+                    .add(jbMoonAge))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 300, Short.MAX_VALUE)
+            .add(layout.createSequentialGroup()
+                .add(48, 48, 48)
+                .add(jbMoonAge)
+                .add(18, 18, 18)
+                .add(jbCalendar)
+                .add(18, 18, 18)
+                .add(jbChart)
+                .addContainerGap(129, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void componentEvents() {
+        jbCalendar.addActionListener(this);
+        jbChart.addActionListener(this);
+        jbMoonAge.addActionListener(this);
+    }
 
     /**
      * @param args the command line arguments
@@ -73,5 +111,38 @@ public class MainMenu extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jbCalendar;
+    private javax.swing.JButton jbChart;
+    private javax.swing.JButton jbMoonAge;
     // End of variables declaration//GEN-END:variables
+
+    private ButtonCommands buttonCommandsMap = new ButtonCommands();
+
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        String command = ae.getActionCommand();
+        int commandId  = buttonCommandsMap.getCommandId(command);
+
+        System.out.print(commandId);
+
+        switch (commandId) {
+            case ButtonCommands.FRAME_MOON_AGE :
+                EventQueue.invokeLater(new Runnable(){
+                    @Override
+                    public void run() {
+                        new CurrentAgeFrame().setVisible(true);
+                    }
+                });
+                break;
+
+            case ButtonCommands.FRAME_CALENDAR :
+                break;
+
+            case ButtonCommands.FRAME_CHART :
+                break;
+
+            default:
+                break;
+        }
+    }
 }
