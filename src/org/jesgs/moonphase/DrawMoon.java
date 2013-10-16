@@ -94,10 +94,14 @@ final public class DrawMoon extends JComponent implements Moon {
         double ageInterval = width / moonAge;
 
         g2.setPaint(Color.WHITE);
-
+        g2.fill( new Ellipse2D.Double( 2, 2, width - 4, height - 4) );
         // Top Right
-//        g2.fill( new QuadCurve2D.Float(32, 0, 60, 0, 64, 32));
-        g2.fill( new Arc2D.Float(32, 0, 64, 64, 0, 180, Arc2D.PIE));
+//        g2.fill( new Arc2D.Float(2, 2, width - 4, height - 4, 0, 90, Arc2D.PIE));
+//        // Bottom Right
+//        g2.fill( new Arc2D.Float(2, 2, width - 4, height - 4, 0, -90, Arc2D.PIE));
 
+        g2.setPaint(Color.BLACK);
+        g2.fill( new Arc2D.Float(2, 2, width - 10, height - 4, 0, 180, Arc2D.PIE));
+//        g2.fill( new Arc2D.Float(2, 2, width - 10, height - 4, 0, -90, Arc2D.PIE));
     }
 }
