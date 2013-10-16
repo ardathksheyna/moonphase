@@ -1,40 +1,38 @@
 package org.jesgs.moonphase;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Jess Green <jgreen@periscope.com>
  */
-public class DrawMoon extends Component {
+final public class DrawMoon extends JComponent implements Moon {
     /**
      * Moon's age
      * Default to New Moon
      */
-    protected int age = 0;
+    protected double age = 0;
 
-    /**
-     * Size of Moon icon
-     * Default to 16x16 pixels
-     */
-    protected Dimension iconSize = null;
+    private Graphics2D g2;
 
     public DrawMoon() {
-        if (iconSize == null) {
-            iconSize = new Dimension(16, 16);
-        }
+        setPreferredSize(new Dimension(16, 16));
     }
 
     /**
      * Get age of Moon
      *
-     * @return int
+     * @return double
      */
-    public int getAge() {
+    @Override
+    public double getAge() {
         return this.age;
     }
 
@@ -43,25 +41,27 @@ public class DrawMoon extends Component {
      *
      * @param age Moon's age
      */
-    public void setAge(int age) {
+    @Override
+    public void setAge(double age) {
         this.age = age;
     }
 
     /**
-     * Get the image size
-     *
+     * Get preferred panel size
      * @return Dimension
      */
-    public Dimension getIconSize() {
-        return this.iconSize;
+    @Override
+    public Dimension getPreferredSize() {
+        return super.getPreferredSize();
     }
 
     /**
-     * Set the image size
-     * @param size
+     * Set Preferred panel size
+     * @param dmnsn
      */
-    public void setIconSize(int size) {
-        this.iconSize = new Dimension(size, size);
+    @Override
+    public final void setPreferredSize(Dimension dmnsn) {
+        super.setPreferredSize(dmnsn);
     }
 
     /**
@@ -69,17 +69,35 @@ public class DrawMoon extends Component {
      *
      * @param graphic
      */
-    public void drawMoon(Graphics graphic) {
-        Graphics2D g2     = (Graphics2D) graphic;
-        Dimension imgSize = getIconSize();
-        int height        = (int) imgSize.getHeight() - 2;
-        int width         = (int) imgSize.getWidth() - 2;
-        int x             = (int) imgSize.getHeight() / 2;
-        int y             = (int) imgSize.getWidth() / 2;
-        int moonAge       = getAge();
+    @Override
+    protected void paintComponent(Graphics graphic) {
+        super.paintComponent(graphic);
 
-        g2.setColor(Color.WHITE);
-        g2.drawOval(x, y, height, width);
-        g2.fillOval(x, y, height, width);
+        g2     = (Graphics2D) graphic;
+        Dimension imgSize = getPreferredSize();
+
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        int height        = (int) imgSize.getHeight();
+        int width         = (int) imgSize.getWidth();
+        double moonAge       = getAge();
+
+        // Moon background
+        g2.setPaint(Color.BLACK);
+        g2.fill( new Ellipse2D.Double(0, 0, width, height) );
+
+        // determine phase
+//        Point2D leftEdge = new Point2D.Float(0, 2);
+//        Point2D rightEdge = new Point2D.Float(width - 10, 2);
+
+        // determine age to width interval
+        double ageInterval = width / moonAge;
+
+        g2.setPaint(Color.WHITE);
+
+        // Top Right
+//        g2.fill( new QuadCurve2D.Float(32, 0, 60, 0, 64, 32));
+        g2.fill( new Arc2D.Float(32, 0, 64, 64, 0, 180, Arc2D.PIE));
+
     }
 }

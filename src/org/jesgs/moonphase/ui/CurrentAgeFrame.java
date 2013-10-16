@@ -1,6 +1,11 @@
 package org.jesgs.moonphase.ui;
 
+import java.awt.Dimension;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import org.jesgs.moonphase.DrawMoon;
+import org.jesgs.moonphase.MoonFx;
 /**
  *
  * @author Jess Green <jgreen@periscope.com>
@@ -11,6 +16,7 @@ public class CurrentAgeFrame extends JFrame {
      * Creates new form CurrentAgeFrame
      */
     public CurrentAgeFrame() {
+        initMoonPhaseGraphic();
         initComponents();
     }
 
@@ -23,30 +29,17 @@ public class CurrentAgeFrame extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 400, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 300, Short.MAX_VALUE)
-        );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(0, 300, Short.MAX_VALUE)
         );
 
         pack();
@@ -82,11 +75,25 @@ public class CurrentAgeFrame extends JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CurrentAgeFrame().setVisible(true);
+
+                CurrentAgeFrame ageFrame = new CurrentAgeFrame();
+                ageFrame.initMoonPhaseGraphic();
+                ageFrame.setVisible(true);
+
             }
         });
     }
+
+    public void initMoonPhaseGraphic() {
+        DrawMoon jpMoonPhase = new DrawMoon();
+        MoonFx moonFx = new MoonFx();
+
+        jpMoonPhase.setAge(moonFx.getSynodicPhase());
+        jpMoonPhase.setBounds(10, 10, 64, 64);
+        jpMoonPhase.setPreferredSize(new Dimension(64,64));
+        getContentPane().add(jpMoonPhase);
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

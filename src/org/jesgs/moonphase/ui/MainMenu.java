@@ -123,8 +123,6 @@ public class MainMenu extends JFrame implements ActionListener {
         String command = ae.getActionCommand();
         int commandId  = buttonCommandsMap.getCommandId(command);
 
-        System.out.print(commandId);
-
         switch (commandId) {
             case ButtonCommands.FRAME_MOON_AGE :
                 EventQueue.invokeLater(new Runnable(){

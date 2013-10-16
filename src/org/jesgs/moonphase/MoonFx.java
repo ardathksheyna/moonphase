@@ -63,6 +63,10 @@ public class MoonFx {
      * @return Date
      */
     public Date getDate() {
+        if (moonDate == null) {
+            moonDate = new Date();
+        }
+
         return this.moonDate;
     }
 
