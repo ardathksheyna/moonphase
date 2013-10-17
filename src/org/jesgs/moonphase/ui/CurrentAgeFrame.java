@@ -88,7 +88,7 @@ public class CurrentAgeFrame extends JFrame {
         DrawMoon jpMoonPhase = new DrawMoon();
         MoonFx moonFx = new MoonFx();
 
-        jpMoonPhase.setAge(moonFx.getSynodicPhase());
+        jpMoonPhase.setAge(19);
         jpMoonPhase.setBounds(10, 10, 64, 64);
         jpMoonPhase.setPreferredSize(new Dimension(64,64));
         getContentPane().add(jpMoonPhase);

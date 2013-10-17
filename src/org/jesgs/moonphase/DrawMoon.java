@@ -84,24 +84,25 @@ final public class DrawMoon extends JComponent implements Moon {
 
         // Moon background
         g2.setPaint(Color.BLACK);
-        g2.fill( new Ellipse2D.Double(0, 0, width, height) );
+        Ellipse2D moonNotIlluminated = new Ellipse2D.Double(0, 0, width, height);
 
-        // determine phase
-//        Point2D leftEdge = new Point2D.Float(0, 2);
-//        Point2D rightEdge = new Point2D.Float(width - 10, 2);
+        g2.fill( moonNotIlluminated );
 
         // determine age to width interval
-        double ageInterval = width / moonAge;
+        float amountIlluminated;
+        float illuminatedXpos = 2;
+
+        if (moonAge <= 14) {
+            amountIlluminated = (float) ((moonAge / MoonFx.SYNODIC_PERIOD) * 2.23) * width;
+        } else {
+            amountIlluminated = (float) ((moonAge / MoonFx.SYNODIC_PERIOD) / 2.23) * width;
+            illuminatedXpos = (float) amountIlluminated + ((width - amountIlluminated) / 2);
+        }
+        System.out.println(amountIlluminated);
+        System.out.println(moonAge);
 
         g2.setPaint(Color.WHITE);
-        g2.fill( new Ellipse2D.Double( 2, 2, width - 4, height - 4) );
-        // Top Right
-//        g2.fill( new Arc2D.Float(2, 2, width - 4, height - 4, 0, 90, Arc2D.PIE));
-//        // Bottom Right
-//        g2.fill( new Arc2D.Float(2, 2, width - 4, height - 4, 0, -90, Arc2D.PIE));
-
-        g2.setPaint(Color.BLACK);
-        g2.fill( new Arc2D.Float(2, 2, width - 10, height - 4, 0, 180, Arc2D.PIE));
-//        g2.fill( new Arc2D.Float(2, 2, width - 10, height - 4, 0, -90, Arc2D.PIE));
+        g2.clip( new Ellipse2D.Float(illuminatedXpos, 2, amountIlluminated - 4, height - 4) );
+        g2.fill( new Ellipse2D.Float(2, 2, width - 4, height - 4) );
     }
 }

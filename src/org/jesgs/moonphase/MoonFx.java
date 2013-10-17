@@ -42,6 +42,11 @@ public class MoonFx {
     public static final long ONE_DAY = 86400000;
 
     /**
+     * Moon's Synodic Period (Days)
+     */
+    public static final double SYNODIC_PERIOD = 29.530589;
+
+    /**
      * Date to check moon properties
      */
     protected Date moonDate;
