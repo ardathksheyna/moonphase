@@ -1,6 +1,8 @@
 package org.jesgs.moonphase.ui;
 
 import java.awt.Dimension;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -87,10 +89,16 @@ public class CurrentAgeFrame extends JFrame {
     public void initMoonPhaseGraphic() {
         DrawMoon jpMoonPhase = new DrawMoon();
         MoonFx moonFx = new MoonFx();
-
-        jpMoonPhase.setAge(19);
-        jpMoonPhase.setBounds(10, 10, 64, 64);
-        jpMoonPhase.setPreferredSize(new Dimension(64,64));
+//        long currentTime = 1382225880000L;
+        Calendar cal = Calendar.getInstance();
+        cal.set(2013, 10, 31, 00, 00);        
+        Date currentDate = new Date(cal.getTimeInMillis());
+        moonFx.setDate(currentDate);
+        
+        jpMoonPhase.setMoonFx(moonFx);
+        jpMoonPhase.setAge(moonFx.getSynodicPhase());
+        jpMoonPhase.setBounds(10, 10, 210, 210);
+        jpMoonPhase.setPreferredSize(new Dimension(200,200));
         getContentPane().add(jpMoonPhase);
     }
 

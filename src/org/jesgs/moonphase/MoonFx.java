@@ -134,10 +134,10 @@ public class MoonFx {
             month2 = month2 - 12;
         }
 
-        double julianDate = (int)(365.25 * (year2 + 4712)) + (int)(30.6 * month2 + .5) + day + 59;
+        double julianDate = (365.25 * (year2 + 4712)) + (30.6 * month2 + .5) + day + 59;
 
         if (julianDate > 2299160) {
-            long k3 = (int)((int)((year2 / 100) + 49) * 0.75) - 38;
+            double k3 = (((year2 / 100) + 49) * 0.75) - 38;
             julianDate = julianDate - k3;
         }
 
