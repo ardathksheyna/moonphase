@@ -91,10 +91,10 @@ public class CurrentAgeFrame extends JFrame {
         MoonFx moonFx = new MoonFx();
 //        long currentTime = 1382225880000L;
         Calendar cal = Calendar.getInstance();
-        cal.set(2013, 10, 31, 00, 00);        
+        cal.set(2013, 11, 25, 00, 00);
         Date currentDate = new Date(cal.getTimeInMillis());
         moonFx.setDate(currentDate);
-        
+
         jpMoonPhase.setMoonFx(moonFx);
         jpMoonPhase.setAge(moonFx.getSynodicPhase());
         jpMoonPhase.setBounds(10, 10, 210, 210);
