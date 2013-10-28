@@ -87,6 +87,18 @@ public class MoonFx {
     }
 
     /**
+     * Return the approximate phase angle of the moon
+     *
+     * @param synodicAge Current age of moon
+     * @return
+     */
+    public double getPhaseAngle(double synodicAge) {
+        double phaseAngle = ((synodicAge / MoonFx.SYNODIC_PERIOD) * 360) / 180;
+
+        return phaseAngle;
+    }
+
+    /**
      * Distance from anomalistic phase
      *
      * @return Distance in Earth radii
@@ -102,6 +114,12 @@ public class MoonFx {
         return distance;
     }
 
+    public double getIlluminatedRatio(double synodicAge) {
+        double phaseAngle = getPhaseAngle(synodicAge);
+
+        return 0.5 * (1 + Math.cos(phaseAngle));
+
+    }
     /**
      * Get position of Moon
      *

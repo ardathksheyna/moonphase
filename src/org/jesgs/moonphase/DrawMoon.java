@@ -98,7 +98,7 @@ final public class DrawMoon extends JComponent implements Moon {
         int xPos2;
         int rPos;
 
-        double Phase = calculatePhase();
+        double Phase = this.moonfx.getPhaseAngle(moonAge);
         int maxYPos = (int)Math.floor(height / 2);
 
         for (int yPos=0; yPos<= maxYPos; yPos++) {
@@ -124,9 +124,6 @@ final public class DrawMoon extends JComponent implements Moon {
                xPos1 = xPos;
                xPos2 = (int)(xPos - 2 * Phase * rPos + rPos);
             }
-            
-            System.out.println(xPos1);
-            System.out.println(xPos2);
 
             g2.setPaint(Color.WHITE);
 
