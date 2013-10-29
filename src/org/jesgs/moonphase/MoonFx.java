@@ -93,7 +93,7 @@ public class MoonFx {
      * @return
      */
     public double getPhaseAngle(double synodicAge) {
-        double phaseAngle = ((synodicAge / MoonFx.SYNODIC_PERIOD) * 360) / 180;
+        double phaseAngle = (synodicAge / MoonFx.SYNODIC_PERIOD) * 360;
 
         return phaseAngle;
     }
@@ -130,6 +130,16 @@ public class MoonFx {
         double eclipticLatitudeRadians = value * MoonFx.PI_RADIANS; // Convert to radians
 
         return eclipticLatitudeRadians;
+    }
+
+    public double getEclipticLongitude() {
+        double synodicPhase = getSynodicPhase();
+        double distance     = getDistanceInEarthRadii();
+        double value = _normalize((getJulianDate() - 2451555.8) / 37.321582241);
+        double eclipticLongitudeRadians = 360 * value + 6.3 + 1.3
+                                        * Math.sin(2 * synodicPhase - distance);
+
+        return eclipticLongitudeRadians;
     }
 
     /**

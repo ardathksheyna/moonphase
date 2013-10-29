@@ -91,51 +91,17 @@ final public class DrawMoon extends JComponent implements Moon {
 
         int height     = (int) imgSize.getHeight();
         int width      = (int) imgSize.getWidth();
+        double centerX = width / 2;
+        double centerY = height / 2;
         double moonAge = getAge();
+        Point2D center = new Point2D.Double(centerX, centerY);
+        Point2D upperLeft  = new Point2D.Double(2, 2);
+        Ellipse2D darkFace = new Ellipse2D.Double();
 
-        int xPos;
-        int xPos1;
-        int xPos2;
-        int rPos;
+        g2.setPaint(Color.BLACK);
 
-        double Phase = this.moonfx.getPhaseAngle(moonAge);
-        int maxYPos = (int)Math.floor(height / 2);
-
-        for (int yPos=0; yPos<= maxYPos; yPos++) {
-            xPos = (int)(Math.sqrt(maxYPos*maxYPos - yPos*yPos));
-
-            g2.setPaint(Color.BLACK);
-
-            // Draw darkness part of the moon
-            Point pB1 = new Point((maxYPos-xPos), (yPos+maxYPos));
-            Point pB2 = new Point((xPos+maxYPos), (yPos+maxYPos));
-            Point pB3 = new Point((maxYPos-xPos), (maxYPos-yPos));
-            Point pB4 = new Point((xPos+maxYPos), (maxYPos-yPos));
-
-            g2.drawLine(pB1.x, pB1.y, pB2.x, pB2.y);
-            g2.drawLine(pB3.x, pB3.y, pB4.x, pB4.y);
-
-            // Determine the edges of the lighted part of the moon
-            rPos = 2 * xPos;
-            if (Phase < 0.5) {
-                xPos1 = -xPos;
-                xPos2 = (int)(rPos - 2 * Phase * rPos - xPos);
-            } else {
-               xPos1 = xPos;
-               xPos2 = (int)(xPos - 2 * Phase * rPos + rPos);
-            }
-
-            g2.setPaint(Color.WHITE);
-
-            // Draw the lighted part of the moon
-            Point pW1 = new Point((xPos1+maxYPos), (maxYPos-yPos));
-            Point pW2 = new Point((xPos2+maxYPos), (maxYPos-yPos));
-            Point pW3 = new Point((xPos1+maxYPos), (yPos+maxYPos));
-            Point pW4 = new Point((xPos2+maxYPos), (yPos+maxYPos));
-
-            g2.drawLine(pW1.x, pW1.y, pW2.x, pW2.y);
-            g2.drawLine(pW3.x, pW3.y, pW4.x, pW4.y);
-        }
+        darkFace.setFrameFromCenter(center, upperLeft);
+        g2.fill(darkFace);
     }
 
     /**
