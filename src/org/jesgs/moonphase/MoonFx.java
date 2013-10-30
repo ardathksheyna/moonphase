@@ -81,21 +81,9 @@ public class MoonFx {
      * @return Moon's age in days (number of days from New Moon)
      */
     public double getSynodicPhase() {
-        double moonsAge = (this._normalize((this.getJulianDate() - 2451550.1) / 29.530588853) * 29.53);
+        double moonsAge = Math.floor(_normalize((this.getJulianDate() - 2451550.1) / MoonFx.SYNODIC_PERIOD) * MoonFx.SYNODIC_PERIOD);
 
         return moonsAge;
-    }
-
-    /**
-     * Return the approximate phase angle of the moon
-     *
-     * @param synodicAge Current age of moon
-     * @return
-     */
-    public double getPhaseAngle(double synodicAge) {
-        double phaseAngle = (synodicAge / MoonFx.SYNODIC_PERIOD) * 360;
-
-        return phaseAngle;
     }
 
     /**
@@ -104,8 +92,8 @@ public class MoonFx {
      * @return Distance in Earth radii
      */
     public double getDistanceInEarthRadii() {
-        double distanceInRadians = this._normalize((this.getJulianDate() - 2451562.2) / 27.55454988) * MoonFx.PI_RADIANS;
-        double synodicPhaseinRadians = this.getSynodicPhase() * MoonFx.PI_RADIANS;
+        double distanceInRadians = _normalize((getJulianDate() - 2451562.2) / 27.55454988) * MoonFx.PI_RADIANS;
+        double synodicPhaseinRadians = getSynodicPhase() * MoonFx.PI_RADIANS;
 
         double distance = 60.4 - 3.3 * Math.cos(distanceInRadians) - .6
                         * Math.cos(2 * synodicPhaseinRadians - distanceInRadians) - .5
@@ -114,32 +102,34 @@ public class MoonFx {
         return distance;
     }
 
-    public double getIlluminatedRatio(double synodicAge) {
-        double phaseAngle = getPhaseAngle(synodicAge);
-
-        return 0.5 * (1 + Math.cos(phaseAngle));
-
-    }
     /**
      * Get position of Moon
      *
      * @return Moon's ecliptic latitude
      */
     public double getEclipticLatitude() {
-        double value = this._normalize((this.getJulianDate() - 2451565.2) / 27.212220817);
-        double eclipticLatitudeRadians = value * MoonFx.PI_RADIANS; // Convert to radians
+        double value = _normalize((getJulianDate() - 2451565.2) / 27.212220817);
+        double eclipticLatitude = 5.1 * Math.sin(value * MoonFx.PI_RADIANS);
 
-        return eclipticLatitudeRadians;
+        return eclipticLatitude;
     }
 
+    /**
+     * Get position of Moon
+     *
+     * @return Moon's ecliptic longitude
+     */
     public double getEclipticLongitude() {
-        double synodicPhase = getSynodicPhase();
-        double distance     = getDistanceInEarthRadii();
-        double value = _normalize((getJulianDate() - 2451555.8) / 37.321582241);
-        double eclipticLongitudeRadians = 360 * value + 6.3 + 1.3
-                                        * Math.sin(2 * synodicPhase - distance);
+        double synodicPhase          = getSynodicPhase();
+        double synodicPhaseInRadians = synodicPhase * MoonFx.PI_RADIANS;
+        double distanceInRadians     = _normalize((getJulianDate() - 2451562.2) / 27.55454988) * MoonFx.PI_RADIANS;
+        double value                 = _normalize((getJulianDate() - 2451555.8) / 27.321582241);
 
-        return eclipticLongitudeRadians;
+        double eclipticLongitude = 360 * value + 6.3 + Math.sin(distanceInRadians) + 1.3
+                                        * Math.sin(2 * synodicPhaseInRadians - distanceInRadians)
+                                        + 0.7 * Math.sin(2 * synodicPhaseInRadians);
+
+        return eclipticLongitude;
     }
 
     /**
@@ -170,6 +160,38 @@ public class MoonFx {
         }
 
         return julianDate;
+    }
+
+    /**
+     * Return the approximate phase angle of the moon
+     *
+     * @param synodicAge Current age of moon
+     * @return
+     */
+    public double getPhaseAngle(double synodicAge) {
+//        double angleToSynodicAge = ((synodicAge / MoonFx.SYNODIC_PERIOD) * 360) - 180;
+        double phaseAngle = (synodicAge / MoonFx.SYNODIC_PERIOD) * 360;
+
+//        if (angleToSynodicAge > 180) {
+//            phaseAngle = angleToSynodicAge - 180;
+//        } else {
+//            phaseAngle = angleToSynodicAge;
+//        }
+
+        return Math.abs(phaseAngle);
+    }
+
+    /**
+     * Get Illuminated ratio of moon according to synodic age
+     *
+     * @param synodicAge
+     * @return
+     */
+    public double getIlluminatedRatio(double synodicAge) {
+        double phaseAngle = getPhaseAngle(synodicAge);
+
+        return 0.5 * (1 + Math.cos(phaseAngle));
+
     }
 
     /**
