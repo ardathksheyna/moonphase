@@ -55,6 +55,7 @@ public class MoonFx {
      * Set the date
      *
      * @param date Date to process
+     * @return
      */
     public MoonFx setDate(Date date) {
         this.moonDate = date;
@@ -81,7 +82,7 @@ public class MoonFx {
      * @return Moon's age in days (number of days from New Moon)
      */
     public double getSynodicPhase() {
-        double moonsAge = Math.floor(_normalize((this.getJulianDate() - 2451550.1) / MoonFx.SYNODIC_PERIOD) * MoonFx.SYNODIC_PERIOD);
+        double moonsAge = _normalize((this.getJulianDate() - 2451550.1) / MoonFx.SYNODIC_PERIOD) * MoonFx.SYNODIC_PERIOD;
 
         return moonsAge;
     }
@@ -169,15 +170,12 @@ public class MoonFx {
      * @return
      */
     public double getPhaseAngle(double synodicAge) {
-//        double angleToSynodicAge = ((synodicAge / MoonFx.SYNODIC_PERIOD) * 360) - 180;
-        double phaseAngle = (synodicAge / MoonFx.SYNODIC_PERIOD) * 360;
-
-//        if (angleToSynodicAge > 180) {
-//            phaseAngle = angleToSynodicAge - 180;
-//        } else {
-//            phaseAngle = angleToSynodicAge;
-//        }
-
+        double phaseAngle = synodicAge * 13;
+        
+        if (phaseAngle > 360) {
+            phaseAngle = phaseAngle - 360;
+        }
+        
         return Math.abs(phaseAngle);
     }
 
@@ -188,9 +186,11 @@ public class MoonFx {
      * @return
      */
     public double getIlluminatedRatio(double synodicAge) {
-        double phaseAngle = getPhaseAngle(synodicAge);
+        double phaseAngle = getPhaseAngle(synodicAge),
+               ofCosine   = (1 - Math.cos(Math.toRadians(phaseAngle))),
+               ratioOfIllumination = ofCosine * 0.5;
 
-        return 0.5 * (1 + Math.cos(phaseAngle));
+        return ratioOfIllumination;
 
     }
 
