@@ -171,11 +171,11 @@ public class MoonFx {
      */
     public double getPhaseAngle(double synodicAge) {
         double phaseAngle = synodicAge * 13;
-        
+
         if (phaseAngle > 360) {
             phaseAngle = phaseAngle - 360;
         }
-        
+
         return Math.abs(phaseAngle);
     }
 

@@ -94,25 +94,44 @@ final public class DrawMoon extends JComponent implements Moon {
         double centerX = width / 2;
         double centerY = height / 2;
         double moonAge = getAge();
-        Point2D center = new Point2D.Double(centerX, centerY);
-        Point2D upperLeft  = new Point2D.Double(2, 2);
-        Ellipse2D darkFace = new Ellipse2D.Double();
+
+        double phaseAngle = moonfx.getPhaseAngle(moonAge),
+               illuminationRatio = moonfx.getIlluminatedRatio(moonAge);
+
+        g2.setPaint(Color.WHITE);
+        g2.fill( new Ellipse2D.Double(0, 0, width, height) );
 
         g2.setPaint(Color.BLACK);
+        int[] xPoints = new int[360];
+        int[] yPoints = new int[360];
 
-        darkFace.setFrameFromCenter(center, upperLeft);
-        g2.fill(darkFace);
-    }
+        for ( int i=0; i < 180; i++ ) {
 
-    /**
-     * Calculate phase based on Julian Date
-     *
-     * @return
-     */
-    private double calculatePhase()
-    {
-        double ip = getAge() / MoonFx.SYNODIC_PERIOD;
+            double angle = Math.toRadians(i - 90);
+            int x1 = (int) ( Math.cos( angle ) * centerX );
+            int y1 = (int) ( Math.sin( angle ) * centerY );
+            int width1 = x1 * 2;
+            int x2 = (int) ( width1 * illuminationRatio );
 
-        return ip;
+            if ( phaseAngle < 180 ) {
+                x1 = (int)centerX - x1;
+                x2 = x1 + (width1 - x2);
+            } else { // waning
+                x1 = (int)centerX + x1;
+                x2 = x1 - (width1 - x2);
+            }
+
+            y1 = (int)centerY + y1;
+
+            xPoints[i] = x1;
+            yPoints[i] = y1;
+
+            xPoints[xPoints.length-(i+1)] = x2;
+            yPoints[yPoints.length-(i+1)] = y1;
+
+        }
+
+        g2.fillPolygon(xPoints, yPoints, xPoints.length);
+
     }
 }
