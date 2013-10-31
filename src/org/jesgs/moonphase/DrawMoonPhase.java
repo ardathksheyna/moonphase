@@ -14,7 +14,7 @@ import javax.swing.JPanel;
  *
  * @author Jess Green <jgreen@periscope.com>
  */
-final public class DrawMoon extends JComponent implements Moon {
+final public class DrawMoonPhase extends JComponent implements Moon {
     /**
      * Moon's age
      * Default to New Moon
@@ -25,7 +25,7 @@ final public class DrawMoon extends JComponent implements Moon {
 
     protected MoonFx moonfx;
 
-    public DrawMoon() {
+    public DrawMoonPhase() {
         setPreferredSize(new Dimension(16, 16));
     }
 
