@@ -121,12 +121,11 @@ public class MoonFx {
      * @return Moon's ecliptic longitude
      */
     public double getEclipticLongitude() {
-        double synodicPhase          = getSynodicPhase();
-        double synodicPhaseInRadians = synodicPhase * MoonFx.PI_RADIANS;
-        double distanceInRadians     = _normalize((getJulianDate() - 2451562.2) / 27.55454988) * MoonFx.PI_RADIANS;
-        double value                 = _normalize((getJulianDate() - 2451555.8) / 27.321582241);
-
-        double eclipticLongitude = 360 * value + 6.3 + Math.sin(distanceInRadians) + 1.3
+        double synodicPhase          = getSynodicPhase(),
+               synodicPhaseInRadians = synodicPhase * MoonFx.PI_RADIANS,
+               distanceInRadians     = _normalize((getJulianDate() - 2451562.2) / 27.55454988) * MoonFx.PI_RADIANS,
+               value                 = _normalize((getJulianDate() - 2451555.8) / 27.321582241),
+               eclipticLongitude = 360 * value + 6.3 + Math.sin(distanceInRadians) + 1.3
                                         * Math.sin(2 * synodicPhaseInRadians - distanceInRadians)
                                         + 0.7 * Math.sin(2 * synodicPhaseInRadians);
 
