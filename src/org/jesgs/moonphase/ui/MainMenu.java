@@ -34,13 +34,14 @@ public class MainMenu extends JFrame implements ActionListener {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jbMoonAge.setText("Current Age of the Moon");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jesgs/moonphase/ui/Bundle"); // NOI18N
+        jbMoonAge.setText(bundle.getString("MainMenu.jbMoonAge")); // NOI18N
         jbMoonAge.setActionCommand("getMoonAge");
 
-        jbCalendar.setText("Calendar");
+        jbCalendar.setText(bundle.getString("MainMenu.jbCalendar")); // NOI18N
         jbCalendar.setActionCommand("getCalendar");
 
-        jbChart.setText("Moon/Earth Distance");
+        jbChart.setText(bundle.getString("MainMenu.jbChart")); // NOI18N
         jbChart.setActionCommand("getDistance");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
@@ -53,7 +54,7 @@ public class MainMenu extends JFrame implements ActionListener {
                     .add(jbChart)
                     .add(jbCalendar)
                     .add(jbMoonAge))
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(177, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -66,6 +67,10 @@ public class MainMenu extends JFrame implements ActionListener {
                 .add(jbChart)
                 .addContainerGap(129, Short.MAX_VALUE))
         );
+
+        jbMoonAge.getAccessibleContext().setAccessibleName(bundle.getString("MainMenu.jbMoonAge")); // NOI18N
+        jbCalendar.getAccessibleContext().setAccessibleName(bundle.getString("MainMenu.jbCalendar")); // NOI18N
+        jbChart.getAccessibleContext().setAccessibleName(bundle.getString("MainMenu.jbChart")); // NOI18N
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

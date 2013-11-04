@@ -1,11 +1,13 @@
 package org.jesgs.moonphase.ui;
 
 import java.awt.Dimension;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.util.ResourceBundle;
 import org.jesgs.moonphase.DrawMoon;
 import org.jesgs.moonphase.MoonFx;
 /**
@@ -31,37 +33,56 @@ public class CurrentAgeFrame extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jLblCurrentDate = new javax.swing.JLabel();
+        jLblMoonAge = new javax.swing.JLabel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(100, 100), new java.awt.Dimension(100, 100), new java.awt.Dimension(100, 100));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("jLabel1");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jesgs/moonphase/ui/Bundle"); // NOI18N
+        jLblCurrentDate.setText(bundle.getString("CurrentAgeFrame.jLblCurrentDate")); // NOI18N
 
-        jLabel2.setText("jLabel2");
+        jLblMoonAge.setText(bundle.getString("CurrentAgeFrame.jLblMoonAge")); // NOI18N
+
+        jlblValueCurrentDate.setText("jLabel3");
+
+        jlblValueMoonAge.setText("jLabel4");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(131, 131, 131)
+                .add(19, 19, 19)
+                .add(filler1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
-                    .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(68, Short.MAX_VALUE))
+                    .add(jLblCurrentDate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(jLblMoonAge))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jlblValueCurrentDate)
+                    .add(jlblValueMoonAge))
+                .addContainerGap(161, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jLabel1)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel2)
-                .addContainerGap(255, Short.MAX_VALUE))
+                .add(21, 21, 21)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(filler1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(layout.createSequentialGroup()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLblCurrentDate)
+                            .add(jlblValueCurrentDate))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLblMoonAge)
+                            .add(jlblValueMoonAge))))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
 
-        jLabel1.getAccessibleContext().setAccessibleDescription("");
+        jLblCurrentDate.getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -108,19 +129,27 @@ public class CurrentAgeFrame extends JFrame {
     public void initMoonPhaseGraphic() {
         DrawMoon jpMoonPhase = new DrawMoon();
         MoonFx moonFx = new MoonFx();
-
+        String longDateFormat = ResourceBundle.getBundle("org/jesgs/moonphase/ui/Bundle").getString("CurrentAgeFrame.currentDateLongFormat");
+        SimpleDateFormat sdf = new SimpleDateFormat(longDateFormat);
         Calendar cal = Calendar.getInstance();
         moonFx.setDate(cal.getTime());
+        double synodicAge = moonFx.getSynodicPhase();
+        
+        jlblValueCurrentDate.setText(sdf.format(cal.getTime()));
+        jlblValueMoonAge.setText("");
         
         jpMoonPhase.setMoonFx(moonFx);
-        jpMoonPhase.setAge(moonFx.getSynodicPhase());
+        jpMoonPhase.setAge(synodicAge);
         jpMoonPhase.setBounds(10, 10, 100, 100);
 
         getContentPane().add(jpMoonPhase);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.JLabel jLblCurrentDate;
+    private javax.swing.JLabel jLblMoonAge;
+    public final javax.swing.JLabel jlblValueCurrentDate = new javax.swing.JLabel();
+    public final javax.swing.JLabel jlblValueMoonAge = new javax.swing.JLabel();
     // End of variables declaration//GEN-END:variables
 }

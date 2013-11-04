@@ -86,7 +86,10 @@ final public class DrawMoon extends JComponent implements Moon {
         
         g2 = (Graphics2D) graphic;
 
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(
+            RenderingHints.KEY_ANTIALIASING,
+            RenderingHints.VALUE_ANTIALIAS_ON
+        );
 
         int height = (int) imgSize.getHeight(),
             width  = (int) imgSize.getWidth();
