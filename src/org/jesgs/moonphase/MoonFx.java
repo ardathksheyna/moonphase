@@ -45,7 +45,7 @@ public class MoonFx {
      * Moon's Synodic Period (Days)
      */
     public static final double SYNODIC_PERIOD = 29.530589;
-    
+
     /**
      * Date to check moon properties
      */
@@ -57,8 +57,8 @@ public class MoonFx {
      * @param date Date to process
      * @return
      */
-    public MoonFx setDate(Date date) {
-        this.moonDate = date;
+    public MoonFx setDate(Calendar date) {
+        this.moonDate = date.getTime();
 
         return this;
     }
@@ -66,11 +66,11 @@ public class MoonFx {
     /**
      * Get the date
      *
-     * @return Date
+     * @return Calendar
      */
     public Date getDate() {
         if (moonDate == null) {
-            moonDate = new Date();
+            moonDate = Calendar.getInstance().getTime();
         }
 
         return this.moonDate;
@@ -141,24 +141,21 @@ public class MoonFx {
     public double getJulianDate() {
 
         Calendar gregorianDateCalendar = Calendar.getInstance();
-        gregorianDateCalendar.setTime(this.getDate());
+        long timeZoneOffset = gregorianDateCalendar.getTimeZone().getRawOffset();
+        gregorianDateCalendar.setTime(new Date(getDate().getTime() - timeZoneOffset));
 
-        int month = gregorianDateCalendar.get(Calendar.MONTH) + 1;
-        int day   = gregorianDateCalendar.get(Calendar.DAY_OF_MONTH);
-        int year  = gregorianDateCalendar.get(Calendar.YEAR);
+        int month = gregorianDateCalendar.get(Calendar.MONTH) + 1,
+            day   = gregorianDateCalendar.get(Calendar.DAY_OF_MONTH),
+            year  = gregorianDateCalendar.get(Calendar.YEAR),
+            hour  = gregorianDateCalendar.get(Calendar.HOUR_OF_DAY);
 
-        long year2 = year - (int)((12 - month) / 10);
-        long month2 = month + 9;
-        if (month2 >= 12) {
-            month2 = month2 - 12;
-        }
+        double minute = (double)gregorianDateCalendar.get(Calendar.MINUTE);
 
-        double julianDate = (365.25 * (year2 + 4712)) + (30.6 * month2 + .5) + day + 59;
+        double ut = hour + (minute / 60);
 
-        if (julianDate > 2299160) {
-            double k3 = (((year2 / 100) + 49) * 0.75) - 38;
-            julianDate = julianDate - k3;
-        }
+        double julianDate = 367 * year - (7 * (year + (month + 9) / 12 ) ) / 4 + (275 * month) / 9
+                          + day + 1721013.5 + (ut / 24)
+                          - 0.5 * Math.signum(100 * year + month - 190002.5) + 0.5;
 
         return julianDate;
     }
