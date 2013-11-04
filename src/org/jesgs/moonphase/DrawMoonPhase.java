@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.*;
 import javax.swing.JComponent;
@@ -25,9 +25,7 @@ final public class DrawMoonPhase extends JComponent implements Moon {
 
     protected MoonFx moonfx;
 
-    public DrawMoonPhase() {
-        setPreferredSize(new Dimension(16, 16));
-    }
+    public DrawMoonPhase() {}
 
     /**
      * Get age of Moon
@@ -49,22 +47,16 @@ final public class DrawMoonPhase extends JComponent implements Moon {
         this.age = age;
     }
 
+
     public MoonFx getMoonFx() {
         return this.moonfx;
     }
+
 
     public void setMoonFx(MoonFx moonFx) {
         this.moonfx = moonFx;
     }
 
-    /**
-     * Get preferred panel size
-     * @return Dimension
-     */
-    @Override
-    public Dimension getPreferredSize() {
-        return super.getPreferredSize();
-    }
 
     /**
      * Set Preferred panel size
@@ -84,54 +76,64 @@ final public class DrawMoonPhase extends JComponent implements Moon {
     protected void paintComponent(Graphics graphic) {
         super.paintComponent(graphic);
 
-        g2     = (Graphics2D) graphic;
-        Dimension imgSize = getPreferredSize();
+        Rectangle bounds = getBounds();
+        Dimension imgSize = new Dimension(
+            (int)bounds.getWidth(),
+            (int)bounds.getHeight()
+        );
+        setPreferredSize(imgSize);
 
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2 = (Graphics2D) graphic;
 
-        int height     = (int) imgSize.getHeight();
-        int width      = (int) imgSize.getWidth();
-        double centerX = width / 2;
-        double centerY = height / 2;
-        double moonAge = getAge();
+        g2.setRenderingHint(
+            RenderingHints.KEY_ANTIALIASING,
+            RenderingHints.VALUE_ANTIALIAS_ON
+        );
 
-        double phaseAngle = moonfx.getPhaseAngle(moonAge),
-               illuminationRatio = moonfx.getIlluminatedRatio(moonAge);
+        int height = (int) imgSize.getHeight(),
+            width  = (int) imgSize.getWidth();
 
+        double centerX = width / 2,
+               centerY = height / 2,
+               phaseAngle = moonfx.getPhaseAngle(getAge()),
+               illuminationRatio = moonfx.getIlluminatedRatio(getAge());
+
+        // draw moon's dark face
         g2.setPaint(Color.WHITE);
-        g2.fill( new Ellipse2D.Double(0, 0, width, height) );
+        g2.fill(new Ellipse2D.Double(0, 0, width, height));
+
+        // draw illuminated portion
+        int[] xp = new int[360];
+        int[] yp = new int[360];
 
         g2.setPaint(Color.BLACK);
-        int[] xPoints = new int[360];
-        int[] yPoints = new int[360];
+        for (int a=0; a < 180; a++) {
 
-        for ( int i=0; i < 180; i++ ) {
-
-            double angle = Math.toRadians(i - 90);
-            int x1 = (int) ( Math.cos( angle ) * centerX );
-            int y1 = (int) ( Math.sin( angle ) * centerY );
-            int width1 = x1 * 2;
-            int x2 = (int) ( width1 * illuminationRatio );
+            double angle = Math.toRadians(a-90);
+            int x1 = (int) Math.ceil( Math.cos( angle ) * centerX ),
+                y1 = (int) Math.ceil( Math.sin( angle ) * centerY ),
+                moonWidth = x1 * 2,
+                x2 = (int) Math.floor(moonWidth * illuminationRatio);
 
             if ( phaseAngle < 180 ) {
-                x1 = (int)centerX - x1;
-                x2 = x1 + (width1 - x2);
+                x1 = (int) centerX - x1;
+                x2 = x1 + (moonWidth - x2);
             } else { // waning
-                x1 = (int)centerX + x1;
-                x2 = x1 - (width1 - x2);
+                x1 = (int) centerX + x1;
+                x2 = x1 - (moonWidth - x2);
             }
 
-            y1 = (int)centerY + y1;
+            y1 = (int) centerY + y1;
 
-            xPoints[i] = x1;
-            yPoints[i] = y1;
+            xp[a] = x1;
+            yp[a] = y1;
 
-            xPoints[xPoints.length-(i+1)] = x2;
-            yPoints[yPoints.length-(i+1)] = y1;
+            xp[xp.length-(a+1)] = x2;
+            yp[yp.length-(a+1)] = y1;
 
         }
 
-        g2.fillPolygon(xPoints, yPoints, xPoints.length);
+        g2.fillPolygon(xp, yp, xp.length);
 
     }
 }

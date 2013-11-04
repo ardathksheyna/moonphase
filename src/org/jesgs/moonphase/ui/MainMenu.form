@@ -30,7 +30,7 @@
                   <Component id="jbCalendar" min="-2" max="-2" attributes="0"/>
                   <Component id="jbMoonAge" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="155" max="32767" attributes="0"/>
+              <EmptySpace pref="177" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -51,21 +51,42 @@
   <SubComponents>
     <Component class="javax.swing.JButton" name="jbMoonAge">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Current Age of the Moon"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="org/jesgs/moonphase/ui/Bundle.properties" key="MainMenu.jbMoonAge" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+        </Property>
         <Property name="actionCommand" type="java.lang.String" value="getMoonAge"/>
       </Properties>
+      <AccessibilityProperties>
+        <Property name="AccessibleContext.accessibleName" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="org/jesgs/moonphase/ui/Bundle.properties" key="MainMenu.jbMoonAge" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+        </Property>
+      </AccessibilityProperties>
     </Component>
     <Component class="javax.swing.JButton" name="jbCalendar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Calendar"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="org/jesgs/moonphase/ui/Bundle.properties" key="MainMenu.jbCalendar" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+        </Property>
         <Property name="actionCommand" type="java.lang.String" value="getCalendar"/>
       </Properties>
+      <AccessibilityProperties>
+        <Property name="AccessibleContext.accessibleName" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="org/jesgs/moonphase/ui/Bundle.properties" key="MainMenu.jbCalendar" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+        </Property>
+      </AccessibilityProperties>
     </Component>
     <Component class="javax.swing.JButton" name="jbChart">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Moon/Earth Distance"/>
+        <Property name="text" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="org/jesgs/moonphase/ui/Bundle.properties" key="MainMenu.jbChart" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+        </Property>
         <Property name="actionCommand" type="java.lang.String" value="getDistance"/>
       </Properties>
+      <AccessibilityProperties>
+        <Property name="AccessibleContext.accessibleName" type="java.lang.String" editor="org.netbeans.modules.i18n.form.FormI18nStringEditor">
+          <ResourceString bundle="org/jesgs/moonphase/ui/Bundle.properties" key="MainMenu.jbChart" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
+        </Property>
+      </AccessibilityProperties>
     </Component>
   </SubComponents>
 </Form>
