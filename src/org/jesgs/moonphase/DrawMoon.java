@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.*;
 import javax.swing.JComponent;
@@ -26,7 +26,6 @@ final public class DrawMoon extends JComponent implements Moon {
     protected MoonFx moonfx;
 
     public DrawMoon() {
-        setPreferredSize(new Dimension(16, 16));
     }
 
     /**
@@ -49,23 +48,17 @@ final public class DrawMoon extends JComponent implements Moon {
         this.age = age;
     }
 
+    
     public MoonFx getMoonFx() {
         return this.moonfx;
     }
 
+    
     public void setMoonFx(MoonFx moonFx) {
         this.moonfx = moonFx;
     }
-
-    /**
-     * Get preferred panel size
-     * @return Dimension
-     */
-    @Override
-    public Dimension getPreferredSize() {
-        return super.getPreferredSize();
-    }
-
+    
+    
     /**
      * Set Preferred panel size
      * @param dmnsn
@@ -83,36 +76,61 @@ final public class DrawMoon extends JComponent implements Moon {
     @Override
     protected void paintComponent(Graphics graphic) {
         super.paintComponent(graphic);
-
-        g2     = (Graphics2D) graphic;
-        Dimension imgSize = getPreferredSize();
+        
+        Rectangle bounds = getBounds();
+        Dimension imgSize = new Dimension(
+            (int)bounds.getWidth(),
+            (int)bounds.getHeight()
+        );
+        setPreferredSize(imgSize);
+        
+        g2 = (Graphics2D) graphic;
 
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        int height     = (int) imgSize.getHeight();
-        int width      = (int) imgSize.getWidth();
-        double centerX = width / 2;
-        double centerY = height / 2;
-        double moonAge = getAge();
-        Point2D center = new Point2D.Double(centerX, centerY);
-        Point2D upperLeft  = new Point2D.Double(2, 2);
-        Ellipse2D darkFace = new Ellipse2D.Double();
+        int height = (int) imgSize.getHeight(),
+            width  = (int) imgSize.getWidth();
+        
+        double centerX = width / 2,
+               centerY = height / 2,
+               phaseAngle = moonfx.getPhaseAngle(getAge()),
+               illuminationRatio = moonfx.getIlluminatedRatio(getAge());
 
+        // draw moon's dark face
+        g2.setPaint(Color.WHITE);
+        g2.fill(new Ellipse2D.Double(0, 0, width, height));
+        
+        // draw illuminated portion
+        int[] xp = new int[360];
+        int[] yp = new int[360];
+       
         g2.setPaint(Color.BLACK);
+        for (int a=0; a < 180; a++) {
 
-        darkFace.setFrameFromCenter(center, upperLeft);
-        g2.fill(darkFace);
-    }
+            double angle = Math.toRadians(a-90);
+            int x1 = (int) Math.ceil( Math.cos( angle ) * centerX ),
+                y1 = (int) Math.ceil( Math.sin( angle ) * centerY ),
+                moonWidth = x1 * 2,
+                x2 = (int) Math.floor(moonWidth * illuminationRatio);
 
-    /**
-     * Calculate phase based on Julian Date
-     *
-     * @return
-     */
-    private double calculatePhase()
-    {
-        double ip = getAge() / MoonFx.SYNODIC_PERIOD;
+            if ( phaseAngle < 180 ) {
+                x1 = (int) centerX - x1;
+                x2 = x1 + (moonWidth - x2);
+            } else { // waning
+                x1 = (int) centerX + x1;
+                x2 = x1 - (moonWidth - x2);
+            }
 
-        return ip;
+            y1 = (int) centerY + y1;
+
+            xp[a] = x1;
+            yp[a] = y1;
+
+            xp[xp.length-(a+1)] = x2;
+            yp[yp.length-(a+1)] = y1;
+
+        }
+        
+        g2.fillPolygon(xp, yp, xp.length);        
     }
 }

@@ -31,18 +31,37 @@ public class CurrentAgeFrame extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("jLabel1");
+
+        jLabel2.setText("jLabel2");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 400, Short.MAX_VALUE)
+            .add(layout.createSequentialGroup()
+                .add(131, 131, 131)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+                    .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 300, Short.MAX_VALUE)
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jLabel1)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jLabel2)
+                .addContainerGap(255, Short.MAX_VALUE))
         );
+
+        jLabel1.getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -89,19 +108,19 @@ public class CurrentAgeFrame extends JFrame {
     public void initMoonPhaseGraphic() {
         DrawMoon jpMoonPhase = new DrawMoon();
         MoonFx moonFx = new MoonFx();
-//        long currentTime = 1382225880000L;
-        Calendar cal = Calendar.getInstance();
-        cal.set(2013, 11, 25, 00, 00);
-        Date currentDate = new Date(cal.getTimeInMillis());
-        moonFx.setDate(currentDate);
 
+        Calendar cal = Calendar.getInstance();
+        moonFx.setDate(cal.getTime());
+        
         jpMoonPhase.setMoonFx(moonFx);
         jpMoonPhase.setAge(moonFx.getSynodicPhase());
-        jpMoonPhase.setBounds(10, 10, 210, 210);
-        jpMoonPhase.setPreferredSize(new Dimension(200,200));
+        jpMoonPhase.setBounds(10, 10, 100, 100);
+
         getContentPane().add(jpMoonPhase);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }
