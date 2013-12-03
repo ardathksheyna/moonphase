@@ -1,10 +1,14 @@
 package org.jesgs.moonphase.ui;
 
 import java.awt.Dimension;
+import java.awt.List;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -82,8 +86,6 @@ public class CurrentAgeFrame extends JFrame {
 
         jlblValueMoonAge.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jlblValueMoonAge.setText("jLabel4");
-
-        filler1.setBounds(new java.awt.Rectangle(10, 10, 160, 160));
 
         jScrollPane1.setViewportView(jTxtPaneMoonData);
 
@@ -173,16 +175,18 @@ public class CurrentAgeFrame extends JFrame {
 
     public void initMoonPhaseGraphic() {
         DrawMoonPhase jpMoonPhase = new DrawMoonPhase();
-        DateTimeCombo dtCombo = new DateTimeCombo();
         MoonFx moonFx = new MoonFx();
         String longDateFormat = ResourceBundle.getBundle("org/jesgs/moonphase/ui/Bundle").getString("CurrentAgeFrame.currentDateLongFormat");
         SimpleDateFormat sdf  = new SimpleDateFormat(longDateFormat);
         DecimalFormat df      = new DecimalFormat();
+        ArrayList moonData = new ArrayList<HashMap>();
 
         Calendar cal = Calendar.getInstance();
+//        cal.set(2013, Calendar.DECEMBER, 2, 18, 22, 0);
         moonFx.setDate(cal);
 
         double synodicAge = moonFx.getSynodicPhase();
+        double julianDate = moonFx.getJulianDate();
         String phaseName = MoonPhaseNames.getPhaseName(synodicAge);
         df.applyLocalizedPattern("###,###,### miles");
 
@@ -190,28 +194,32 @@ public class CurrentAgeFrame extends JFrame {
         jlblValueMoonAge.setText(phaseName);
 
         // output moon data
-        String phaseData;
         SimpleDateFormat sdf2 = (SimpleDateFormat) sdf.clone();
 
         sdf.applyLocalizedPattern("k:mm a z");
         sdf2.applyLocalizedPattern("k:mm a z");
         sdf2.setTimeZone(TimeZone.getTimeZone("UTC"));
-        phaseData = "Local Time: " + sdf.format(cal.getTime()) + "\r\n"
-                  + "Universal Time: " + sdf2.format(cal.getTime()) + "\r\n"
-                  + "Julian Date: " + moonFx.getJulianDate() + "\r\n"
-                  + "Moon Age: " + synodicAge + "\r\n"
-                  + "Angle: " + moonFx.getPhaseAngle(synodicAge) + "\r\n"
-                  + "Percent Illuminated: " + Math.round(moonFx.getIlluminatedRatio(synodicAge) * 100) + "% \r\n"
-                  + "Distance (mi): " + df.format(Math.round(moonFx.getDistanceInEarthRadii() * MoonFx.EARTH_RADIUS_MI)) + "\r\n";
+
+        HashMap localTime = new HashMap();
+        localTime.put("Local Time", sdf.format(cal.getTime()));
+        moonData.add(localTime);
+        System.out.println(moonData);
+
+//        moonData.put("Local Time:", sdf.format(cal.getTime()));
+//        moonData.put("Universal Time: ", sdf2.format(cal.getTime()));
+//        moonData.put("Julian Date: ", Double.toString(julianDate));
+//        moonData.put("Moon's Age: ", Double.toString(synodicAge) + " days since New Moon");
+//        moonData.put("Angle: ", Double.toString(moonFx.getPhaseAngle(synodicAge)));
+//        moonData.put("Percent Illuminated: ", Math.round(moonFx.getIlluminatedRatio(synodicAge) * 100) + "%");
+//        moonData.put("Distance (mi): ", df.format(Math.round(moonFx.getDistanceInEarthRadii() * MoonFx.EARTH_RADIUS_MI)));
+//        MoonData jpDataPanel = new MoonData(moonData);
 
         jpMoonPhase.setMoonFx(moonFx);
         jpMoonPhase.setAge(synodicAge);
         jpMoonPhase.setBounds(10, 10, 190, 190);
-        dtCombo.setBounds(10, 285, 384, 140);
-        jTxtPaneMoonData.setText(phaseData);
+//        jpDataPanel.setBounds(10, 200, 200, 200);
 
         getContentPane().add(jpMoonPhase);
-        getContentPane().add(dtCombo);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

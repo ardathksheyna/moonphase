@@ -159,9 +159,6 @@
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[100, 100]"/>
         </Property>
-        <Property name="bounds" type="java.awt.Rectangle" editor="org.netbeans.beaninfo.editors.RectangleEditor">
-          <Rectangle value="[10, 10, 160, 160]"/>
-        </Property>
       </Properties>
       <AuxValues>
         <AuxValue name="classDetails" type="java.lang.String" value="Box.Filler.RigidArea"/>
