@@ -57,7 +57,7 @@ public class MoonDataCollection {
 
     @Override
     public String toString() {
-        String data = this.label + ": " + this.value;
+        String data = this.label + " " + this.value;
 
         return data;
     }

@@ -1,10 +1,10 @@
 package org.jesgs.moonphase.ui;
 
-import java.awt.List;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import org.jesgs.moonphase.MoonDataCollection;
 /**
  *
  * @author Jess Green <jgreen@periscope.com>
@@ -12,44 +12,51 @@ import javax.swing.JLabel;
 public class MoonData extends JPanel {
 
 
+    /**
+     *
+     */
+    private ArrayList<MoonDataCollection> moonData;
 
-    private Map<String, String>[] labels = null;
-    private JLabel[] jlabels;
 
     /**
      * Creates new form MoonData
      */
-    public MoonData(Map<String, String>[] labels) {
-        this.labels = labels;
+    public MoonData(ArrayList<MoonDataCollection> moonData) {
+        this.moonData = moonData;
 
         setupLabels();
         initComponents();
     }
 
 
-    public void setupLabels()
+    private void setupLabels()
     {
-        if (labels == null) {
-            return;
+        // two labels (label/value)
+        Iterator moonDataIt = moonData.iterator();
+
+        int vPlacement = 10;
+
+        while(moonDataIt.hasNext()) {
+            Object element = moonDataIt.next();
+            MoonDataCollection data = (MoonDataCollection) element;
+            String label = data.getLabel(),
+                   value = data.getValue();
+
+            JLabel jlabelLabel = new JLabel();
+            JLabel jlabelValue = new JLabel();
+
+            jlabelLabel.setText(label);
+            jlabelLabel.setBounds(10, vPlacement, 150, 20);
+            jlabelValue.setText(value);
+            jlabelValue.setBounds(150, vPlacement, 400, 20);
+
+            add(jlabelLabel);
+            add(jlabelValue);
+
+            vPlacement = vPlacement + 20;
         }
 
-//        Iterator it = labels.values().iterator();
-
     }
-
-
-    public void setLabelData(Map<String, String>[] labels)
-    {
-        this.labels = labels;
-    }
-
-
-
-    public Map<String, String>[] getLabelData()
-    {
-        return labels;
-    }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
