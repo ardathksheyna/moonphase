@@ -24,6 +24,9 @@ import org.jesgs.moonphase.MoonFx;
  */
 public class CurrentAgeFrame extends JFrame {
 
+    private MoonFx moonfx = new MoonFx();
+    private ArrayList<MoonDataCollection> moonData = new ArrayList<MoonDataCollection>();
+
     /**
      * Creates new form CurrentAgeFrame
      */
@@ -155,24 +158,40 @@ public class CurrentAgeFrame extends JFrame {
 
                 CurrentAgeFrame ageFrame = new CurrentAgeFrame();
 
-                ageFrame.initMoonPhaseGraphic();
-                ageFrame.setVisible(true);
-
+                ageFrame.initMoonPhaseGraphic()
+                        .initMoonDataPanel()
+                        .setVisible(true);
             }
         });
     }
 
-    final public void initMoonPhaseGraphic() {
+
+    /**
+     * Init graphics panel
+     * @return void
+     */
+    final public CurrentAgeFrame initMoonPhaseGraphic() {
         DrawMoonPhase jpMoonPhase = new DrawMoonPhase();
         jpMoonPhase.setMoonFx(moonfx);
         jpMoonPhase.setBounds(10, 10, 190, 190);
 
         getContentPane().add(jpMoonPhase);
+
+        return this;
     }
 
-    private MoonFx moonfx = new MoonFx();
-    private ArrayList<MoonDataCollection> moonData = new ArrayList<MoonDataCollection>();
 
+    /**
+     * Init moon data panel
+     *
+     * @return
+     */
+    final public CurrentAgeFrame initMoonDataPanel() {
+
+        return this;
+    }
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
     private javax.swing.JFrame jFrame1;
