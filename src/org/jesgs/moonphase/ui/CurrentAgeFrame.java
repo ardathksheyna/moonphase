@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 import org.jesgs.moonphase.DrawMoonPhase;
+import org.jesgs.moonphase.MoonDataCollection;
 import org.jesgs.moonphase.MoonFx;
 
 /**
@@ -27,8 +28,6 @@ public class CurrentAgeFrame extends JFrame {
      * Creates new form CurrentAgeFrame
      */
     public CurrentAgeFrame() {
-        jTxtPaneMoonData = new javax.swing.JTextPane();
-
         initMoonPhaseGraphic();
         initComponents();
     }
@@ -47,8 +46,6 @@ public class CurrentAgeFrame extends JFrame {
         jLblCurrentDate = new javax.swing.JLabel();
         jLblMoonAge = new javax.swing.JLabel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(100, 100), new java.awt.Dimension(100, 100), new java.awt.Dimension(100, 100));
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTxtPaneMoonData = new javax.swing.JTextPane();
 
         org.jdesktop.layout.GroupLayout jFrame1Layout = new org.jdesktop.layout.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -87,8 +84,6 @@ public class CurrentAgeFrame extends JFrame {
         jlblValueMoonAge.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jlblValueMoonAge.setText("jLabel4");
 
-        jScrollPane1.setViewportView(jTxtPaneMoonData);
-
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -97,17 +92,14 @@ public class CurrentAgeFrame extends JFrame {
                 .add(16, 16, 16)
                 .add(filler1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 195, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(jLblCurrentDate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(jLblMoonAge))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(jLblCurrentDate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(jLblMoonAge))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jlblValueCurrentDate)
-                            .add(jlblValueMoonAge)))
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 284, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(145, Short.MAX_VALUE))
+                    .add(jlblValueCurrentDate)
+                    .add(jlblValueMoonAge))
+                .addContainerGap(225, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -121,11 +113,9 @@ public class CurrentAgeFrame extends JFrame {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                             .add(jLblMoonAge)
-                            .add(jlblValueMoonAge))
-                        .add(18, 18, 18)
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 189, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(jlblValueMoonAge)))
                     .add(filler1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 195, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(136, Short.MAX_VALUE))
+                .addContainerGap(204, Short.MAX_VALUE))
         );
 
         jLblCurrentDate.getAccessibleContext().setAccessibleDescription("");
@@ -173,21 +163,26 @@ public class CurrentAgeFrame extends JFrame {
         });
     }
 
-    public void initMoonPhaseGraphic() {
+    final public void initMoonPhaseGraphic() {
         DrawMoonPhase jpMoonPhase = new DrawMoonPhase();
-        MoonFx moonFx = new MoonFx();
+
+        jpMoonPhase.setMoonFx(moonfx);
+        jpMoonPhase.setBounds(10, 10, 190, 190);
+
+        setupMoonData();
+        getContentPane().add(jpMoonPhase);
+    }
+
+    private void setupMoonData() {
+        Calendar cal = Calendar.getInstance();
         String longDateFormat = ResourceBundle.getBundle("org/jesgs/moonphase/ui/Bundle").getString("CurrentAgeFrame.currentDateLongFormat");
         SimpleDateFormat sdf  = new SimpleDateFormat(longDateFormat);
         DecimalFormat df      = new DecimalFormat();
-        ArrayList moonData = new ArrayList<HashMap>();
-
-        Calendar cal = Calendar.getInstance();
-//        cal.set(2013, Calendar.DECEMBER, 2, 18, 22, 0);
-        moonFx.setDate(cal);
-
-        double synodicAge = moonFx.getSynodicPhase();
-        double julianDate = moonFx.getJulianDate();
+        ArrayList moonData = new ArrayList<MoonDataCollection>();
+        double synodicAge = moonfx.getSynodicPhase(),
+               julianDate = moonfx.getJulianDate();
         String phaseName = MoonPhaseNames.getPhaseName(synodicAge);
+
         df.applyLocalizedPattern("###,###,### miles");
 
         jlblValueCurrentDate.setText(sdf.format(cal.getTime()));
@@ -200,27 +195,17 @@ public class CurrentAgeFrame extends JFrame {
         sdf2.applyLocalizedPattern("k:mm a z");
         sdf2.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-        HashMap localTime = new HashMap();
-        localTime.put("Local Time", sdf.format(cal.getTime()));
-        moonData.add(localTime);
-        System.out.println(moonData);
+        moonData.add(new MoonDataCollection("Local Time", sdf.format(cal.getTime())));
+        moonData.add(new MoonDataCollection("Universal Time: ", sdf2.format(cal.getTime())));
+        moonData.add(new MoonDataCollection("Julian Date: ", Double.toString(julianDate)));
+        moonData.add(new MoonDataCollection("Moon's Age: ", Double.toString(synodicAge) + " days since New Moon"));
+        moonData.add(new MoonDataCollection("Angle: ", Double.toString(moonfx.getPhaseAngle(synodicAge))));
+        moonData.add(new MoonDataCollection("Percent Illuminated: ", Math.round(moonfx.getIlluminatedRatio(synodicAge) * 100) + "%"));
+        moonData.add(new MoonDataCollection("Distance (mi): ", df.format(Math.round(moonfx.getDistanceInEarthRadii() * MoonFx.EARTH_RADIUS_MI))));
 
-//        moonData.put("Local Time:", sdf.format(cal.getTime()));
-//        moonData.put("Universal Time: ", sdf2.format(cal.getTime()));
-//        moonData.put("Julian Date: ", Double.toString(julianDate));
-//        moonData.put("Moon's Age: ", Double.toString(synodicAge) + " days since New Moon");
-//        moonData.put("Angle: ", Double.toString(moonFx.getPhaseAngle(synodicAge)));
-//        moonData.put("Percent Illuminated: ", Math.round(moonFx.getIlluminatedRatio(synodicAge) * 100) + "%");
-//        moonData.put("Distance (mi): ", df.format(Math.round(moonFx.getDistanceInEarthRadii() * MoonFx.EARTH_RADIUS_MI)));
-//        MoonData jpDataPanel = new MoonData(moonData);
-
-        jpMoonPhase.setMoonFx(moonFx);
-        jpMoonPhase.setAge(synodicAge);
-        jpMoonPhase.setBounds(10, 10, 190, 190);
-//        jpDataPanel.setBounds(10, 200, 200, 200);
-
-        getContentPane().add(jpMoonPhase);
     }
+
+    private MoonFx moonfx = new MoonFx();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
@@ -228,8 +213,6 @@ public class CurrentAgeFrame extends JFrame {
     private javax.swing.JFrame jFrame2;
     private javax.swing.JLabel jLblCurrentDate;
     private javax.swing.JLabel jLblMoonAge;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextPane jTxtPaneMoonData;
     public final javax.swing.JLabel jlblValueCurrentDate = new javax.swing.JLabel();
     public final javax.swing.JLabel jlblValueMoonAge = new javax.swing.JLabel();
     // End of variables declaration//GEN-END:variables

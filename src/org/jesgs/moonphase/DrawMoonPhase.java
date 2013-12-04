@@ -8,45 +8,18 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.*;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 /**
  *
  * @author Jess Green <jgreen@periscope.com>
  */
-final public class DrawMoonPhase extends JComponent implements Moon {
-    /**
-     * Moon's age
-     * Default to New Moon
-     */
-    protected double age = 0;
+final public class DrawMoonPhase extends JComponent {
 
     private Graphics2D g2;
 
     protected MoonFx moonfx;
 
     public DrawMoonPhase() {}
-
-    /**
-     * Get age of Moon
-     *
-     * @return double
-     */
-    @Override
-    public double getAge() {
-        return this.age;
-    }
-
-    /**
-     * Set the age of the moon
-     *
-     * @param age Moon's age
-     */
-    @Override
-    public void setAge(double age) {
-        this.age = age;
-    }
-
 
     public MoonFx getMoonFx() {
         return this.moonfx;
@@ -95,8 +68,8 @@ final public class DrawMoonPhase extends JComponent implements Moon {
 
         double centerX = width / 2,
                centerY = height / 2,
-               phaseAngle = moonfx.getPhaseAngle(getAge()),
-               illuminationRatio = moonfx.getIlluminatedRatio(getAge());
+               phaseAngle = moonfx.getPhaseAngle(moonfx.getSynodicPhase()),
+               illuminationRatio = moonfx.getIlluminatedRatio(moonfx.getSynodicPhase());
 
         // draw moon's dark face
         g2.setPaint(Color.WHITE);
