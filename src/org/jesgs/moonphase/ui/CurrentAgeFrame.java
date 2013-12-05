@@ -1,7 +1,19 @@
 package org.jesgs.moonphase.ui;
 
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.awt.List;
+import java.awt.Rectangle;
+import java.awt.Transparency;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,7 +26,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import org.jesgs.moonphase.DrawMoonPhase;
+import org.jesgs.moonphase.MoonIcon;
 import org.jesgs.moonphase.MoonDataCollection;
 import org.jesgs.moonphase.MoonFx;
 
@@ -172,11 +187,13 @@ public class CurrentAgeFrame extends JFrame {
      */
     final public CurrentAgeFrame initMoonPhaseGraphic() {
         DrawMoonPhase jpMoonPhase = new DrawMoonPhase();
-        jpMoonPhase.setMoonFx(moonfx);
         jpMoonPhase.setBounds(10, 10, 190, 190);
-
         getContentPane().add(jpMoonPhase);
+        
+        MoonIcon mIcon = new MoonIcon(new Rectangle(0,0,16,16), new MoonFx());
+        Image moonImage = this.iconToImage(mIcon);
 
+        this.setIconImage(moonImage);
         return this;
     }
 
@@ -190,8 +207,34 @@ public class CurrentAgeFrame extends JFrame {
 
         return this;
     }
-
     
+    
+    /**
+     * Convert icon to image before assigning
+     * 
+     * @param icon
+     * @return 
+     */
+    private Image iconToImage(Icon icon) {
+       if (icon instanceof ImageIcon) {
+          return ((ImageIcon)icon).getImage();
+       } else {
+          int w = icon.getIconWidth(),
+              h = icon.getIconHeight();
+          
+          GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+          GraphicsDevice gd = ge.getDefaultScreenDevice();
+          GraphicsConfiguration gc = gd.getDefaultConfiguration();
+          BufferedImage image = gc.createCompatibleImage(w, h, Transparency.TRANSLUCENT);
+          
+          Graphics2D g = image.createGraphics();
+          icon.paintIcon(null, g, 0, 0);
+          g.dispose();
+          
+          return image;
+       }
+     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
     private javax.swing.JFrame jFrame1;

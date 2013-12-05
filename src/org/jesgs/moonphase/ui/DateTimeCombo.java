@@ -1,6 +1,5 @@
 package org.jesgs.moonphase.ui;
 
-import javax.swing.DefaultComboBoxModel;
 /**
  *
  * @author Jess Green <jgreen@periscope.com>
@@ -12,15 +11,6 @@ public class DateTimeCombo extends javax.swing.JPanel {
      */
     public DateTimeCombo() {
         initComponents();
-        setComponentDefaults();
-    }
-
-    private void setComponentDefaults() {
-        jComboBoxTime.setModel(new DefaultComboBoxModel(
-                new String[] {
-                     "Item 5", "Item 6", "Item 7", "Item 8"
-                }
-        ));
     }
 
     /**
@@ -32,78 +22,88 @@ public class DateTimeCombo extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jSpinnerYear = new javax.swing.JSpinner();
         jLabel3 = new javax.swing.JLabel();
         jSpinnerMonth = new javax.swing.JSpinner();
         jLabel4 = new javax.swing.JLabel();
         jSpinnerDay = new javax.swing.JSpinner();
-        jLabel5 = new javax.swing.JLabel();
-        jComboBoxTime = new javax.swing.JComboBox();
+        jSpinnerTime = new javax.swing.JSpinner();
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("org/jesgs/moonphase/ui/Bundle"); // NOI18N
-        jLabel1.setText(bundle.getString("CurrentAgeFrame.jLblChooseDate")); // NOI18N
-
-        jLabel2.setText(bundle.getString("CurrentAgeFrame.jLblYear")); // NOI18N
-
-        jLabel3.setText(bundle.getString("CurrentAgeFrame.jLblMonth")); // NOI18N
-
-        jLabel4.setText(bundle.getString("CurrentAgeFrame.jLblDay")); // NOI18N
+        jLabel2.setText(bundle.getString("CurrentAgeFrame.jLblChooseDate")); // NOI18N
 
         jLabel5.setText(bundle.getString("CurrentAgeFrame.jLblTime")); // NOI18N
 
-        jComboBoxTime.setEditable(true);
-        jComboBoxTime.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jLabel1.setText(bundle.getString("CurrentAgeFrame.jLblYear")); // NOI18N
+
+        jSpinnerYear.setModel(new javax.swing.SpinnerDateModel());
+        jSpinnerYear.setEditor(new javax.swing.JSpinner.DateEditor(jSpinnerYear, "Y"));
+
+        jLabel3.setText(bundle.getString("CurrentAgeFrame.jLblMonth")); // NOI18N
+
+        jSpinnerMonth.setModel(new javax.swing.SpinnerDateModel());
+        jSpinnerMonth.setEditor(new javax.swing.JSpinner.DateEditor(jSpinnerMonth, "M"));
+
+        jLabel4.setText(bundle.getString("CurrentAgeFrame.jLblDay")); // NOI18N
+
+        jSpinnerDay.setModel(new javax.swing.SpinnerDateModel());
+        jSpinnerDay.setEditor(new javax.swing.JSpinner.DateEditor(jSpinnerDay, "d"));
+
+        jSpinnerTime.setModel(new javax.swing.SpinnerDateModel());
+        jSpinnerTime.setEditor(new javax.swing.JSpinner.DateEditor(jSpinnerTime, "h:mm a"));
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(27, 27, 27)
+                .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jLabel2)
                     .add(layout.createSequentialGroup()
-                        .add(jLabel5)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(jComboBoxTime, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 90, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(layout.createSequentialGroup()
-                        .add(jLabel2)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jSpinnerYear, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 65, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(jLabel3)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jSpinnerMonth, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 56, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
+                                .add(jLabel5)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(jSpinnerTime, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 105, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
+                                .add(jLabel1)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(jSpinnerYear, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                .add(jLabel3)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(jSpinnerMonth, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 52, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(18, 18, 18)
                         .add(jLabel4)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jSpinnerDay, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 55, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(jLabel1))
-                .addContainerGap(36, Short.MAX_VALUE))
+                        .add(jSpinnerDay, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 46, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(15, 15, 15)
-                .add(jLabel1)
+                .addContainerGap()
+                .add(jLabel2)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
-                    .add(jSpinnerDay, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel4)
-                    .add(jSpinnerMonth, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel1)
+                    .add(jSpinnerYear, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel3)
-                    .add(jLabel2)
-                    .add(jSpinnerYear, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(18, 18, 18)
+                    .add(jSpinnerMonth, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel4)
+                    .add(jSpinnerDay, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel5)
-                    .add(jComboBoxTime, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                    .add(jSpinnerTime, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox jComboBoxTime;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -111,6 +111,7 @@ public class DateTimeCombo extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JSpinner jSpinnerDay;
     private javax.swing.JSpinner jSpinnerMonth;
+    private javax.swing.JSpinner jSpinnerTime;
     private javax.swing.JSpinner jSpinnerYear;
     // End of variables declaration//GEN-END:variables
 }
