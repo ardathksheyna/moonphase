@@ -1,12 +1,7 @@
 package org.jesgs.moonphase;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.geom.*;
 import javax.swing.JComponent;
 
 /**
