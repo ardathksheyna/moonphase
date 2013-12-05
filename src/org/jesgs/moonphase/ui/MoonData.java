@@ -15,11 +15,12 @@ public class MoonData extends JPanel {
     /**
      *
      */
-    private ArrayList<MoonDataCollection> moonData;
+    final private ArrayList<MoonDataCollection> moonData;
 
 
     /**
      * Creates new form MoonData
+     * @param moonData
      */
     public MoonData(ArrayList<MoonDataCollection> moonData) {
         this.moonData = moonData;

@@ -116,7 +116,7 @@ public class CurrentAgeFrame extends JFrame {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jlblValueCurrentDate)
                     .add(jlblValueMoonAge))
-                .addContainerGap(388, Short.MAX_VALUE))
+                .addContainerGap(197, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -132,7 +132,7 @@ public class CurrentAgeFrame extends JFrame {
                             .add(jLblMoonAge)
                             .add(jlblValueMoonAge)))
                     .add(filler1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 195, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(212, Short.MAX_VALUE))
+                .addContainerGap(177, Short.MAX_VALUE))
         );
 
         jLblCurrentDate.getAccessibleContext().setAccessibleDescription("");
@@ -189,11 +189,12 @@ public class CurrentAgeFrame extends JFrame {
         DrawMoonPhase jpMoonPhase = new DrawMoonPhase();
         jpMoonPhase.setBounds(10, 10, 190, 190);
         getContentPane().add(jpMoonPhase);
-        
-        MoonIcon mIcon = new MoonIcon(new Rectangle(0,0,16,16), new MoonFx());
+
+        MoonIcon mIcon = new MoonIcon(new Rectangle(0,0,96,96), this.moonfx);
         Image moonImage = this.iconToImage(mIcon);
 
         this.setIconImage(moonImage);
+        
         return this;
     }
 
@@ -204,6 +205,38 @@ public class CurrentAgeFrame extends JFrame {
      * @return
      */
     final public CurrentAgeFrame initMoonDataPanel() {
+        Calendar cal = Calendar.getInstance();
+        String longDateFormat = ResourceBundle.getBundle("org/jesgs/moonphase/ui/Bundle").getString("CurrentAgeFrame.currentDateLongFormat");
+        SimpleDateFormat sdf  = new SimpleDateFormat(longDateFormat);
+        DecimalFormat df      = new DecimalFormat();
+        double synodicAge = moonfx.getSynodicPhase(),
+               julianDate = moonfx.getJulianDate();
+        String phaseName = MoonPhaseNames.getPhaseName(synodicAge);
+
+        df.applyLocalizedPattern("###,###,### miles");
+
+        jlblValueCurrentDate.setText(sdf.format(cal.getTime()));
+        jlblValueMoonAge.setText(phaseName);
+
+        // output moon data
+        SimpleDateFormat sdf2 = (SimpleDateFormat) sdf.clone();
+
+        sdf.applyLocalizedPattern("k:mm a z");
+        sdf2.applyLocalizedPattern("k:mm a z");
+        sdf2.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        moonData.add(new MoonDataCollection("Local Time:", sdf.format(cal.getTime())));
+        moonData.add(new MoonDataCollection("Universal Time: ", sdf2.format(cal.getTime())));
+        moonData.add(new MoonDataCollection("Julian Date: ", Double.toString(julianDate)));
+        moonData.add(new MoonDataCollection("Moon's Age: ", Double.toString(Math.round(synodicAge)) + " days since New Moon"));
+        moonData.add(new MoonDataCollection("Angle: ", Double.toString(Math.round(moonfx.getPhaseAngle(synodicAge)))));
+        moonData.add(new MoonDataCollection("Percent Illuminated: ", Math.round(moonfx.getIlluminatedRatio(synodicAge) * 100) + "%"));
+        
+        MoonData jpMoonData = new MoonData(moonData);
+        Rectangle position = jLblMoonAge.getBounds();
+        
+        jpMoonData.setBounds(position.x, (position.y + position.height), 400, 400);
+        getContentPane().add(jpMoonData);
 
         return this;
     }
