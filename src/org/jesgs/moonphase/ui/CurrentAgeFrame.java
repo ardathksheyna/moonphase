@@ -187,14 +187,19 @@ public class CurrentAgeFrame extends JFrame {
      */
     final public CurrentAgeFrame initMoonPhaseGraphic() {
         DrawMoonPhase jpMoonPhase = new DrawMoonPhase();
-        jpMoonPhase.setBounds(10, 10, 190, 190);
-        getContentPane().add(jpMoonPhase);
+        DateTimeCombo jpDateTime  = new DateTimeCombo();
 
-        MoonIcon mIcon = new MoonIcon(new Rectangle(0,0,96,96), this.moonfx);
+        jpMoonPhase.setBounds(10, 10, 190, 190);
+        jpDateTime.setBounds(10, 220, 350, 120);
+        getContentPane().add(jpMoonPhase);
+        getContentPane().add(jpDateTime);
+        Calendar cal = Calendar.getInstance();
+
+        MoonIcon mIcon = new MoonIcon(new Rectangle(0, 0, 288, 288), this.moonfx);
         Image moonImage = this.iconToImage(mIcon);
 
         this.setIconImage(moonImage);
-        
+
         return this;
     }
 
@@ -231,22 +236,22 @@ public class CurrentAgeFrame extends JFrame {
         moonData.add(new MoonDataCollection("Moon's Age: ", Double.toString(Math.round(synodicAge)) + " days since New Moon"));
         moonData.add(new MoonDataCollection("Angle: ", Double.toString(Math.round(moonfx.getPhaseAngle(synodicAge)))));
         moonData.add(new MoonDataCollection("Percent Illuminated: ", Math.round(moonfx.getIlluminatedRatio(synodicAge) * 100) + "%"));
-        
+
         MoonData jpMoonData = new MoonData(moonData);
-        Rectangle position = jLblMoonAge.getBounds();
-        
-        jpMoonData.setBounds(position.x, (position.y + position.height), 400, 400);
+        Rectangle maPos = jLblMoonAge.getBounds();
+
+        jpMoonData.setBounds(maPos.x, (maPos.y + maPos.height), 400, 140);
         getContentPane().add(jpMoonData);
 
         return this;
     }
-    
-    
+
+
     /**
      * Convert icon to image before assigning
-     * 
+     *
      * @param icon
-     * @return 
+     * @return
      */
     private Image iconToImage(Icon icon) {
        if (icon instanceof ImageIcon) {
@@ -254,16 +259,16 @@ public class CurrentAgeFrame extends JFrame {
        } else {
           int w = icon.getIconWidth(),
               h = icon.getIconHeight();
-          
+
           GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
           GraphicsDevice gd = ge.getDefaultScreenDevice();
           GraphicsConfiguration gc = gd.getDefaultConfiguration();
           BufferedImage image = gc.createCompatibleImage(w, h, Transparency.TRANSLUCENT);
-          
+
           Graphics2D g = image.createGraphics();
           icon.paintIcon(null, g, 0, 0);
           g.dispose();
-          
+
           return image;
        }
      }
