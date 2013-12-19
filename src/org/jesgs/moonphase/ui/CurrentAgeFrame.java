@@ -211,14 +211,18 @@ public class CurrentAgeFrame extends JFrame {
      */
     final public CurrentAgeFrame initMoonDataPanel() {
         Calendar cal = Calendar.getInstance();
-        String longDateFormat = ResourceBundle.getBundle("org/jesgs/moonphase/ui/Bundle").getString("CurrentAgeFrame.currentDateLongFormat");
+        ResourceBundle bundle = ResourceBundle.getBundle("org/jesgs/moonphase/ui/Bundle");
+        String longDateFormat = bundle.getString("CurrentAgeFrame.currentDateLongFormat"),
+               timeFormat    = bundle.getString("CurrentAgeFrame.timeFormat"),
+               milesFormat   = bundle.getString("CurrentAgeFrame.milesFormat");
+
         SimpleDateFormat sdf  = new SimpleDateFormat(longDateFormat);
         DecimalFormat df      = new DecimalFormat();
         double synodicAge = moonfx.getSynodicPhase(),
                julianDate = moonfx.getJulianDate();
         String phaseName = MoonPhaseNames.getPhaseName(synodicAge);
 
-        df.applyLocalizedPattern("###,###,### miles");
+        df.applyLocalizedPattern(milesFormat);
 
         jlblValueCurrentDate.setText(sdf.format(cal.getTime()));
         jlblValueMoonAge.setText(phaseName);
@@ -226,8 +230,8 @@ public class CurrentAgeFrame extends JFrame {
         // output moon data
         SimpleDateFormat sdf2 = (SimpleDateFormat) sdf.clone();
 
-        sdf.applyLocalizedPattern("k:mm a z");
-        sdf2.applyLocalizedPattern("k:mm a z");
+        sdf.applyLocalizedPattern(timeFormat);
+        sdf2.applyLocalizedPattern(timeFormat);
         sdf2.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         moonData.add(new MoonDataCollection("Local Time:", sdf.format(cal.getTime())));
