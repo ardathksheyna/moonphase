@@ -13,5 +13,7 @@ public class DateTimeChangedEvent extends EventObject {
 
     public DateTimeChangedEvent(Object source, Date date) {
         super(source);
+
+        this.date = date;
     }
 }

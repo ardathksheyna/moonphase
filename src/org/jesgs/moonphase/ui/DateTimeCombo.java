@@ -38,12 +38,13 @@ public class DateTimeCombo extends javax.swing.JPanel {
 
     /**
      * Set up event listener
-     * 
+     *
      * @param dtl
      */
-    public void addDateTimeChangedListener(DateTimeChangedListener dtl) {
+    public synchronized void addDateTimeChangedListener(DateTimeChangedListener dtl) {
         this.listener = dtl;
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
