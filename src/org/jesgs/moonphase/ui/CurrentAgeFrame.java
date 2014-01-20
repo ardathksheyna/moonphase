@@ -11,6 +11,7 @@ import java.awt.Image;
 import java.awt.List;
 import java.awt.Rectangle;
 import java.awt.Transparency;
+import java.awt.event.InputMethodEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
@@ -189,11 +190,23 @@ public class CurrentAgeFrame extends JFrame {
         DrawMoonPhase jpMoonPhase = new DrawMoonPhase();
         DateTimeCombo jpDateTime  = new DateTimeCombo();
 
+        jpDateTime.addInputMethodListener(new java.awt.event.InputMethodListener(){
+
+            @Override
+            public void inputMethodTextChanged(InputMethodEvent event) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void caretPositionChanged(InputMethodEvent event) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+
         jpMoonPhase.setBounds(10, 10, 190, 190);
         jpDateTime.setBounds(10, 220, 350, 120);
         getContentPane().add(jpMoonPhase);
         getContentPane().add(jpDateTime);
-        Calendar cal = Calendar.getInstance();
 
         MoonIcon mIcon = new MoonIcon(new Rectangle(0, 0, 288, 288), this.moonfx);
         Image moonImage = this.iconToImage(mIcon);

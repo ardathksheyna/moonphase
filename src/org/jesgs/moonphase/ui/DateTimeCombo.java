@@ -1,10 +1,18 @@
 package org.jesgs.moonphase.ui;
 
+import java.util.Date;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 /**
  *
  * @author Jess Green <jgreen@periscope.com>
  */
 public class DateTimeCombo extends javax.swing.JPanel {
+
+    private DateTimeChangedListener listener;
+
+    private Date currentSetDate;
 
     /**
      * Creates new form DateTimeCombo
@@ -12,6 +20,29 @@ public class DateTimeCombo extends javax.swing.JPanel {
     public DateTimeCombo() {
         initComponents();
         setVisible(true);
+    }
+
+
+
+    /**
+     * Get the current DateTimeCombo value
+     *
+     * @return date
+     */
+    public Date getDateValue()
+    {
+        return this.currentSetDate;
+
+    }
+
+
+    /**
+     * Set up event listener
+     * 
+     * @param dtl
+     */
+    public void addDateTimeChangedListener(DateTimeChangedListener dtl) {
+        this.listener = dtl;
     }
 
     /**
