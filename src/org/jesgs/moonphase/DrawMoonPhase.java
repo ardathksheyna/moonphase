@@ -9,11 +9,10 @@ import javax.swing.JComponent;
  * @author Jess Green <jgreen@periscope.com>
  */
 final public class DrawMoonPhase extends JComponent {
-    
+
     private MoonIcon moonIcon;
-    
-    public DrawMoonPhase() {
-    }
+
+    public DrawMoonPhase() {}
 
     /**
      * Set Preferred panel size

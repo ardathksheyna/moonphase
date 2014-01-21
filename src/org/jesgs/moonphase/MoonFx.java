@@ -57,8 +57,8 @@ public class MoonFx {
      * @param date Date to process
      * @return
      */
-    public MoonFx setDate(Calendar date) {
-        this.moonDate = date.getTime();
+    public MoonFx setDate(Date date) {
+        this.moonDate = date;
 
         return this;
     }
