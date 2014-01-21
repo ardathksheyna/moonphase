@@ -64,6 +64,8 @@ public class CurrentAgeFrame extends JFrame {
         jLblCurrentDate = new javax.swing.JLabel();
         jLblMoonAge = new javax.swing.JLabel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(100, 100), new java.awt.Dimension(100, 100), new java.awt.Dimension(100, 100));
+        jLabel1 = new javax.swing.JLabel();
+        jSpinner1 = new javax.swing.JSpinner();
 
         org.jdesktop.layout.GroupLayout jFrame1Layout = new org.jdesktop.layout.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -102,21 +104,30 @@ public class CurrentAgeFrame extends JFrame {
         jlblValueMoonAge.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jlblValueMoonAge.setText("jLabel4");
 
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        jLabel1.setText("Choose Date and Time:");
+
+        jSpinner1.setModel(new javax.swing.SpinnerDateModel());
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .add(16, 16, 16)
-                .add(filler1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 195, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(jLblCurrentDate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(jLblMoonAge))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jlblValueCurrentDate)
-                    .add(jlblValueMoonAge))
+                    .add(jSpinner1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel1)
+                    .add(layout.createSequentialGroup()
+                        .add(filler1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 195, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(jLblCurrentDate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(jLblMoonAge))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jlblValueCurrentDate)
+                            .add(jlblValueMoonAge))))
                 .addContainerGap(197, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -133,7 +144,11 @@ public class CurrentAgeFrame extends JFrame {
                             .add(jLblMoonAge)
                             .add(jlblValueMoonAge)))
                     .add(filler1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 195, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(177, Short.MAX_VALUE))
+                .add(18, 18, 18)
+                .add(jLabel1)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jSpinner1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(103, Short.MAX_VALUE))
         );
 
         jLblCurrentDate.getAccessibleContext().setAccessibleDescription("");
@@ -188,25 +203,10 @@ public class CurrentAgeFrame extends JFrame {
      */
     final public CurrentAgeFrame initMoonPhaseGraphic() {
         DrawMoonPhase jpMoonPhase = new DrawMoonPhase();
-        DateTimeCombo jpDateTime  = new DateTimeCombo();
-
-        jpDateTime.addInputMethodListener(new java.awt.event.InputMethodListener(){
-
-            @Override
-            public void inputMethodTextChanged(InputMethodEvent event) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void caretPositionChanged(InputMethodEvent event) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        });
 
         jpMoonPhase.setBounds(10, 10, 190, 190);
-        jpDateTime.setBounds(10, 220, 350, 120);
+
         getContentPane().add(jpMoonPhase);
-        getContentPane().add(jpDateTime);
 
         MoonIcon mIcon = new MoonIcon(new Rectangle(0, 0, 288, 288), this.moonfx);
         Image moonImage = this.iconToImage(mIcon);
@@ -294,8 +294,10 @@ public class CurrentAgeFrame extends JFrame {
     private javax.swing.Box.Filler filler1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLblCurrentDate;
     private javax.swing.JLabel jLblMoonAge;
+    private javax.swing.JSpinner jSpinner1;
     public final javax.swing.JLabel jlblValueCurrentDate = new javax.swing.JLabel();
     public final javax.swing.JLabel jlblValueMoonAge = new javax.swing.JLabel();
     // End of variables declaration//GEN-END:variables
