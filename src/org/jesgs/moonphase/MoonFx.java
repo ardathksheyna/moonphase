@@ -166,7 +166,7 @@ public class MoonFx {
      * @return
      */
     public double getPhaseAngle(double synodicAge) {
-        double phaseAngle = synodicAge * 13;
+        double phaseAngle = synodicAge * (360 / MoonFx.SYNODIC_PERIOD);
 
         if (phaseAngle > 360) {
             phaseAngle = phaseAngle - 360;
