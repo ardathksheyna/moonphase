@@ -223,7 +223,7 @@ public class CurrentAgeFrame extends JFrame {
             @Override
             public void stateChanged(ChangeEvent ce) {
                 JSpinner spinner = (JSpinner) ce.getSource();
-
+                System.out.println(spinner.getValue());
             }
 
         });
