@@ -204,7 +204,7 @@ public class CurrentAgeFrame extends JFrame {
     final public CurrentAgeFrame initMoonPhaseGraphic() {
         
         jSpinnerDate.addChangeListener(new ChangeListener(){
-            private String lastValue;
+            private Object lastValue;
             
             @Override
             public void stateChanged(ChangeEvent ce) {
@@ -214,7 +214,7 @@ public class CurrentAgeFrame extends JFrame {
                    System.out.println(spinner.getValue());
                 }
                 
-                lastValue = (String) spinner.getValue().toString();                                
+                lastValue = spinner.getValue();                                
             }
 
         });
