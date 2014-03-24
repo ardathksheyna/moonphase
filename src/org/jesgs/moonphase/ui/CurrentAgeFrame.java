@@ -43,9 +43,7 @@ import org.jesgs.moonphase.MoonFx;
  */
 public class CurrentAgeFrame extends JFrame {
 
-    private MoonFx moonfx = new MoonFx();
     private ArrayList<MoonDataCollection> moonData = new ArrayList<MoonDataCollection>();
-    private Date currentDate;
 
     /**
      * Creates new form CurrentAgeFrame
@@ -194,89 +192,53 @@ public class CurrentAgeFrame extends JFrame {
                 CurrentAgeFrame ageFrame = new CurrentAgeFrame();
 
                 ageFrame.initMoonPhaseGraphic()
-                        .initMoonDataPanel()
                         .setVisible(true);
             }
         });
     }
-
 
     /**
      * Init graphics panel
      * @return void
      */
     final public CurrentAgeFrame initMoonPhaseGraphic() {
-        DrawMoonPhase jpMoonPhase = new DrawMoonPhase();
-        this.currentDate = (Date) jSpinnerDate.getValue();
-        this.moonfx.setDate(this.currentDate);
-
-        jpMoonPhase.setBounds(10, 10, 190, 190);
-
-        getContentPane().add(jpMoonPhase);
-
-        MoonIcon mIcon = new MoonIcon(new Rectangle(0, 0, 288, 288), this.moonfx);
-        Image moonImage = this.iconToImage(mIcon);
-        this.setIconImage(moonImage);
-
+        
         jSpinnerDate.addChangeListener(new ChangeListener(){
-
+            private String lastValue;
+            
             @Override
             public void stateChanged(ChangeEvent ce) {
                 JSpinner spinner = (JSpinner) ce.getSource();
-                System.out.println(spinner.getValue());
+
+                if (lastValue != null && !spinner.getValue().equals(lastValue)) {
+                   System.out.println(spinner.getValue());
+                }
+                
+                lastValue = (String) spinner.getValue().toString();                                
             }
 
         });
         return this;
     }
+    
+    
+    final public CurrentAgeFrame changeMoonData() {
 
+        DrawMoonPhase jpMoonPhase = new DrawMoonPhase();
+        MoonFx moonFx = new MoonFx();
+        Date currentDate = (Date) jSpinnerDate.getValue();
+        moonFx.setDate(currentDate);
+        
+        jpMoonPhase.setBounds(10, 10, 190, 190);
 
-    /**
-     * Init moon data panel
-     *
-     * @return
-     */
-    final public CurrentAgeFrame initMoonDataPanel() {
-        Calendar cal = Calendar.getInstance();
-        ResourceBundle bundle = ResourceBundle.getBundle("org/jesgs/moonphase/ui/Bundle");
-        String longDateFormat = bundle.getString("CurrentAgeFrame.currentDateLongFormat"),
-               timeFormat    = bundle.getString("CurrentAgeFrame.timeFormat"),
-               milesFormat   = bundle.getString("CurrentAgeFrame.milesFormat");
+        getContentPane().add(jpMoonPhase);
 
-        SimpleDateFormat sdf  = new SimpleDateFormat(longDateFormat);
-        DecimalFormat df      = new DecimalFormat();
-        double synodicAge = moonfx.getSynodicPhase(),
-               julianDate = moonfx.getJulianDate();
-        String phaseName = MoonPhaseNames.getPhaseName(synodicAge);
-
-        df.applyLocalizedPattern(milesFormat);
-
-        jlblValueCurrentDate.setText(sdf.format(cal.getTime()));
-        jlblValueMoonAge.setText(phaseName);
-
-        // output moon data
-        SimpleDateFormat sdf2 = (SimpleDateFormat) sdf.clone();
-
-        sdf.applyLocalizedPattern(timeFormat);
-        sdf2.applyLocalizedPattern(timeFormat);
-        sdf2.setTimeZone(TimeZone.getTimeZone("UTC"));
-
-        moonData.add(new MoonDataCollection("Local Time:", sdf.format(cal.getTime())));
-        moonData.add(new MoonDataCollection("Universal Time: ", sdf2.format(cal.getTime())));
-        moonData.add(new MoonDataCollection("Julian Date: ", Double.toString(julianDate)));
-        moonData.add(new MoonDataCollection("Moon's Age: ", Double.toString(Math.round(synodicAge)) + " days since New Moon"));
-        moonData.add(new MoonDataCollection("Angle: ", Double.toString(Math.round(moonfx.getPhaseAngle(synodicAge)))));
-        moonData.add(new MoonDataCollection("Percent Illuminated: ", Math.round(moonfx.getIlluminatedRatio(synodicAge) * 100) + "%"));
-
-        MoonData jpMoonData = new MoonData(moonData);
-        Rectangle maPos = jLblMoonAge.getBounds();
-
-        jpMoonData.setBounds(maPos.x, (maPos.y + maPos.height), 400, 140);
-        getContentPane().add(jpMoonData);
-
+        MoonIcon mIcon = new MoonIcon(new Rectangle(0, 0, 288, 288), moonFx);
+        Image moonImage = this.iconToImage(mIcon);
+        this.setIconImage(moonImage);
+        
         return this;
     }
-
 
     /**
      * Convert icon to image before assigning
