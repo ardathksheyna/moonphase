@@ -44,12 +44,15 @@ import org.jesgs.moonphase.MoonFx;
 public class CurrentAgeFrame extends JFrame {
 
     private ArrayList<MoonDataCollection> moonData = new ArrayList<MoonDataCollection>();
+    private CurrentAgeFrame self = new CurrentAgeFrame();
 
     /**
      * Creates new form CurrentAgeFrame
      */
     public CurrentAgeFrame() {
         initComponents();
+        /* Create and display the form */
+
     }
 
     /**
@@ -184,17 +187,6 @@ public class CurrentAgeFrame extends JFrame {
             java.util.logging.Logger.getLogger(CurrentAgeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-
-                CurrentAgeFrame ageFrame = new CurrentAgeFrame();
-
-                ageFrame.initMoonPhaseGraphic()
-                        .setVisible(true);
-            }
-        });
     }
 
     /**
@@ -202,10 +194,10 @@ public class CurrentAgeFrame extends JFrame {
      * @return void
      */
     final public CurrentAgeFrame initMoonPhaseGraphic() {
-        
+
         jSpinnerDate.addChangeListener(new ChangeListener(){
             private Object lastValue;
-            
+
             @Override
             public void stateChanged(ChangeEvent ce) {
                 JSpinner spinner = (JSpinner) ce.getSource();
@@ -213,22 +205,22 @@ public class CurrentAgeFrame extends JFrame {
                 if (lastValue != null && !spinner.getValue().equals(lastValue)) {
                    System.out.println(spinner.getValue());
                 }
-                
-                lastValue = spinner.getValue();                                
+
+                lastValue = spinner.getValue();
             }
 
         });
         return this;
     }
-    
-    
+
+
     final public CurrentAgeFrame changeMoonData() {
 
         DrawMoonPhase jpMoonPhase = new DrawMoonPhase();
         MoonFx moonFx = new MoonFx();
         Date currentDate = (Date) jSpinnerDate.getValue();
         moonFx.setDate(currentDate);
-        
+
         jpMoonPhase.setBounds(10, 10, 190, 190);
 
         getContentPane().add(jpMoonPhase);
@@ -236,7 +228,7 @@ public class CurrentAgeFrame extends JFrame {
         MoonIcon mIcon = new MoonIcon(new Rectangle(0, 0, 288, 288), moonFx);
         Image moonImage = this.iconToImage(mIcon);
         this.setIconImage(moonImage);
-        
+
         return this;
     }
 
