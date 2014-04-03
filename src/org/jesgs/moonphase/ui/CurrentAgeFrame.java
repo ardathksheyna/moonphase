@@ -1,23 +1,100 @@
 package org.jesgs.moonphase.ui;
 
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.Transparency;
+import java.awt.image.BufferedImage;
+import java.util.Date;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JSpinner;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import org.jesgs.moonphase.DrawMoonPhase;
+import org.jesgs.moonphase.MoonFx;
+import org.jesgs.moonphase.MoonIcon;
 
 /**
  *
  * @author Jess Green <jgreen@periscope.com>
  */
-public class CurrentAgeFrame extends JFrame {
+public class CurrentAgeFrame extends JFrame implements ChangeListener {
+
+    private Object lastValue;
+    private MoonIcon mIcon;
+    private MoonFx moonFx;
 
     /**
      * Creates new form CurrentAgeFrame
      */
     public CurrentAgeFrame() {
         initComponents();
-
+        initListeners();
+        initMoonGraphics();
         // get value from spinner, init Moonphase values?
         // set up listener?
         // set up Moonphase icon?
     }
+
+    private void initListeners() {
+        jSpinnerDate.addChangeListener(this);
+    }
+
+    private void initMoonGraphics() {
+
+        DrawMoonPhase jpMoonPhase = new DrawMoonPhase();
+        moonFx = new MoonFx();
+
+        jpMoonPhase.setBounds(10, 10, 190, 190);
+        getContentPane().add(jpMoonPhase);
+
+        mIcon = new MoonIcon(new Rectangle(0, 0, 288, 288), moonFx);
+        Image moonImage = this.iconToImage(mIcon);
+        this.setIconImage(moonImage);
+
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent ce) {
+        JSpinner spinner = (JSpinner) ce.getSource();
+
+        if (lastValue != null && !spinner.getValue().equals(lastValue)) {
+           initMoonGraphics();
+        }
+
+        lastValue = spinner.getValue();
+    }
+
+    /**
+     * Convert icon to image before assigning
+     *
+     * @param icon
+     * @return
+     */
+    private Image iconToImage(Icon icon) {
+       if (icon instanceof ImageIcon) {
+          return ((ImageIcon)icon).getImage();
+       } else {
+          int w = icon.getIconWidth(),
+              h = icon.getIconHeight();
+
+          GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+          GraphicsDevice gd = ge.getDefaultScreenDevice();
+          GraphicsConfiguration gc = gd.getDefaultConfiguration();
+          BufferedImage image = gc.createCompatibleImage(w, h, Transparency.TRANSLUCENT);
+
+          Graphics2D g = image.createGraphics();
+          icon.paintIcon(null, g, 0, 0);
+          g.dispose();
+
+          return image;
+       }
+     }
 
     /**
      * This method is called from within the constructor to initialize the form.
