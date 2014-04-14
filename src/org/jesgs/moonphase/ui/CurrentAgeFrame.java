@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JSpinner;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import org.jesgs.moonphase.DrawMoonPhase;
+import org.jesgs.moonphase.MoonPhasePanel;
 import org.jesgs.moonphase.MoonFx;
 import org.jesgs.moonphase.MoonIcon;
 
@@ -27,7 +27,8 @@ public class CurrentAgeFrame extends JFrame implements ChangeListener {
 
     private Object lastValue;
     private MoonIcon mIcon;
-    private MoonFx moonFx;
+    private MoonFx moonFx = new MoonFx();
+    private MoonPhasePanel jpMoonPhase = new MoonPhasePanel();
 
     /**
      * Creates new form CurrentAgeFrame
@@ -47,16 +48,14 @@ public class CurrentAgeFrame extends JFrame implements ChangeListener {
 
     private void initMoonGraphics() {
 
-        DrawMoonPhase jpMoonPhase = new DrawMoonPhase();
-        moonFx = new MoonFx();
-
         jpMoonPhase.setBounds(10, 10, 190, 190);
         getContentPane().add(jpMoonPhase);
 
-        mIcon = new MoonIcon(new Rectangle(0, 0, 288, 288), moonFx);
+        mIcon = new MoonIcon(new Rectangle(0, 0, 180, 180), moonFx);
+        jpMoonPhase.setGraphic(mIcon);
+
         Image moonImage = this.iconToImage(mIcon);
         this.setIconImage(moonImage);
-
     }
 
     @Override
@@ -64,7 +63,11 @@ public class CurrentAgeFrame extends JFrame implements ChangeListener {
         JSpinner spinner = (JSpinner) ce.getSource();
 
         if (lastValue != null && !spinner.getValue().equals(lastValue)) {
-           initMoonGraphics();
+            Date spinnerDate = (Date) spinner.getValue();
+
+            moonFx.setDate(spinnerDate);
+            jpMoonPhase.repaint();
+            this.setIconImage(this.iconToImage(mIcon));
         }
 
         lastValue = spinner.getValue();

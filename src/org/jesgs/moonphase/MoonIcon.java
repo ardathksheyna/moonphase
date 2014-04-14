@@ -16,13 +16,14 @@ import javax.swing.Icon;
  */
 public class MoonIcon implements Icon {
 
-    final private MoonFx moonfx;
-    final private Rectangle bounds;
-    
+    private MoonFx moonfx;
+    private Rectangle bounds;
+
     public MoonIcon(Rectangle bounds, MoonFx moonfx) {
         this.bounds = bounds;
         this.moonfx = moonfx;
     }
+
 
     /**
      * Create moon icon

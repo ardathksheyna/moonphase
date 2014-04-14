@@ -8,11 +8,19 @@ import javax.swing.JComponent;
  *
  * @author Jess Green <jgreen@periscope.com>
  */
-final public class DrawMoonPhase extends JComponent {
+public class MoonPhasePanel extends JComponent {
 
     private MoonIcon moonIcon;
 
-    public DrawMoonPhase() {}
+    public MoonPhasePanel() {}
+
+    public void setGraphic(MoonIcon icon) {
+        moonIcon = icon;
+    }
+
+    protected MoonIcon getGraphic() {
+        return moonIcon;
+    }
 
     /**
      * Set Preferred panel size
@@ -30,7 +38,6 @@ final public class DrawMoonPhase extends JComponent {
      */
     @Override
     protected void paintComponent(Graphics graphic) {
-        moonIcon = new MoonIcon(getBounds(), new MoonFx());
         moonIcon.paintIcon(this, graphic, 0, 0);
     }
 }
