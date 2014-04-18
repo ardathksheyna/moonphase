@@ -18,13 +18,14 @@ package org.jesgs.moonphase;
 import java.util.Calendar;
 import java.util.Date;
 import java.lang.Math;
+import java.util.ArrayList;
 
 /**
  * MoonFx Class
  *
  * @author Jess Green <jgreen at psy-dreamer.com>
  */
-public class MoonFx {
+public class MoonFx implements MoonObservable {
 
     /**
      * Pi in radians
@@ -52,13 +53,37 @@ public class MoonFx {
     protected Date moonDate;
 
     /**
+     * List of observers to notify when changed
+     */
+    private ArrayList<MoonObserver> observers = new ArrayList<MoonObserver>();
+
+    @Override
+    public void registerObserver(MoonObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(MoonObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (MoonObserver ob : observers) {
+            ob.update();
+        }
+    }
+
+    /**
      * Set the date
      *
      * @param date Date to process
      * @return
      */
     public MoonFx setDate(Date date) {
+        
         this.moonDate = date;
+        notifyObservers();
 
         return this;
     }

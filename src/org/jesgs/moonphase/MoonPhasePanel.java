@@ -8,7 +8,7 @@ import javax.swing.JComponent;
  *
  * @author Jess Green <jgreen@periscope.com>
  */
-public class MoonPhasePanel extends JComponent {
+public class MoonPhasePanel extends JComponent implements MoonObserver {
 
     private MoonIcon moonIcon;
 
@@ -39,5 +39,13 @@ public class MoonPhasePanel extends JComponent {
     @Override
     protected void paintComponent(Graphics graphic) {
         moonIcon.paintIcon(this, graphic, 0, 0);
+    }
+
+    /**
+     * Update the graphic when notified
+     */
+    @Override
+    public void update() {
+        repaint();
     }
 }
