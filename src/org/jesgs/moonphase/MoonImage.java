@@ -1,10 +1,12 @@
 package org.jesgs.moonphase;
 
+import javax.swing.JComponent;
+
 /**
  *
  * @author Jess Green <jgreen@periscope.com>
  */
-public class MoonImage implements MoonObserver {
+public class MoonImage extends JComponent implements MoonObserver {
 
     private MoonIcon moonIcon;
 

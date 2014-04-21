@@ -47,7 +47,8 @@ public class CurrentAgeFrame extends JFrame implements ChangeListener {
     }
 
     private void initMoonGraphics() {
-
+        moonFx.registerObserver(jpMoonPhase);
+        
         jpMoonPhase.setBounds(10, 10, 190, 190);
         getContentPane().add(jpMoonPhase);
 
@@ -66,7 +67,6 @@ public class CurrentAgeFrame extends JFrame implements ChangeListener {
             Date spinnerDate = (Date) spinner.getValue();
 
             moonFx.setDate(spinnerDate);
-            jpMoonPhase.repaint();
             this.setIconImage(this.iconToImage(mIcon));
         }
 

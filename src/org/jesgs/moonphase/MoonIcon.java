@@ -21,7 +21,7 @@ public class MoonIcon implements Icon {
 
     public MoonIcon(Rectangle bounds, MoonFx moonfx) {
         this.bounds = bounds;
-        this.moonfx = moonfx;
+        this.moonfx = moonfx; // Needs to be removed
     }
 
 
