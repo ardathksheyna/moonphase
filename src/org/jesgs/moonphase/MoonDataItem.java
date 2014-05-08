@@ -4,13 +4,12 @@ package org.jesgs.moonphase;
  *
  * @author Jess Green <jgreen@periscope.com>
  */
-public class MoonDataCollection {
+public class MoonDataItem {
 
     private String label;
     private String value;
 
-
-    public MoonDataCollection(String label, String value) {
+    public MoonDataItem(String label, String value) {
         this.put(label, value);
     }
 
@@ -61,4 +60,5 @@ public class MoonDataCollection {
 
         return data;
     }
+
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import org.jesgs.moonphase.MoonDataCollection;
+import org.jesgs.moonphase.MoonDataItem;
 /**
  *
  * @author Jess Green <jgreen@periscope.com>
@@ -15,14 +15,14 @@ public class MoonData extends JPanel {
     /**
      *
      */
-    final private ArrayList<MoonDataCollection> moonData;
+    final private ArrayList<MoonDataItem> moonData;
 
 
     /**
      * Creates new form MoonData
      * @param moonData
      */
-    public MoonData(ArrayList<MoonDataCollection> moonData) {
+    public MoonData(ArrayList<MoonDataItem> moonData) {
         this.moonData = moonData;
 
         setupLabels();
@@ -39,7 +39,7 @@ public class MoonData extends JPanel {
 
         while(moonDataIt.hasNext()) {
             Object element = moonDataIt.next();
-            MoonDataCollection data = (MoonDataCollection) element;
+            MoonDataItem data = (MoonDataItem) element;
             String label = data.getLabel(),
                    value = data.getValue();
 
@@ -56,10 +56,6 @@ public class MoonData extends JPanel {
 
             vPlacement = vPlacement + 20;
         }
-
-    }
-
-    private void addLabelLabel(String text, int vPlacement) {
 
     }
 
