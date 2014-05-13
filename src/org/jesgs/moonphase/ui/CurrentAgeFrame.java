@@ -29,6 +29,7 @@ public class CurrentAgeFrame extends JFrame implements ChangeListener {
     private MoonIcon mIcon;
     private MoonFx moonFx = new MoonFx();
     private MoonPhasePanel jpMoonPhase = new MoonPhasePanel();
+    private MoonData jpMoonData = new MoonData(moonFx);
 
     /**
      * Creates new form CurrentAgeFrame
@@ -37,9 +38,6 @@ public class CurrentAgeFrame extends JFrame implements ChangeListener {
         initComponents();
         initListeners();
         initMoonGraphics();
-        // get value from spinner, init Moonphase values?
-        // set up listener?
-        // set up Moonphase icon?
     }
 
     private void initListeners() {
@@ -48,9 +46,12 @@ public class CurrentAgeFrame extends JFrame implements ChangeListener {
 
     private void initMoonGraphics() {
         moonFx.registerObserver(jpMoonPhase);
+        moonFx.registerObserver(jpMoonData);
 
         jpMoonPhase.setBounds(10, 10, 190, 190);
+        jpMoonData.setBounds(200, 10, 500, 300);
         getContentPane().add(jpMoonPhase);
+        getContentPane().add(jpMoonData);
 
         mIcon = new MoonIcon(new Rectangle(0, 0, 180, 180), moonFx);
         jpMoonPhase.setGraphic(mIcon);

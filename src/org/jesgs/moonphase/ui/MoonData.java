@@ -1,35 +1,107 @@
 package org.jesgs.moonphase.ui;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.ResourceBundle;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import org.jesgs.moonphase.MoonDataItem;
+import org.jesgs.moonphase.MoonFx;
+import org.jesgs.moonphase.MoonObserver;
+
+
 /**
  *
  * @author Jess Green <jgreen@periscope.com>
  */
-public class MoonData extends JPanel {
+public class MoonData extends JPanel implements MoonObserver {
 
 
     /**
-     *
+     * Moon data collection array
      */
-    final private ArrayList<MoonDataItem> moonData;
+    private ArrayList<MoonDataItem> moonData;
+
+
+    /**
+     * Config data
+     */
+    private ResourceBundle bundle = ResourceBundle.getBundle("org/jesgs/moonphase/ui/Bundle");
+
+
+    /**
+     * Instance of MoonFx
+     */
+    final private MoonFx moonFx;
 
 
     /**
      * Creates new form MoonData
-     * @param moonData
+     *
+     * @param moonFx
      */
-    public MoonData(ArrayList<MoonDataItem> moonData) {
-        this.moonData = moonData;
+    public MoonData(MoonFx moonFx) {
+        this.moonData = new ArrayList<MoonDataItem>();
+        this.moonFx   = moonFx;
 
-        setupLabels();
+        populateArrayList();
         initComponents();
     }
 
 
+    /**
+     * Notify observers of update
+     * @return void
+     */
+    @Override
+    public void update() {
+        moonData.clear();
+        removeAll();
+        populateArrayList();
+        repaint();
+    }
+
+
+    /**
+     * Populate collection
+     *
+     * @return void
+     */
+    private void populateArrayList()
+    {
+        String longDateFormat = bundle.getString("CurrentAgeFrame.currentDateLongFormat"),
+               timeFormat     = bundle.getString("CurrentAgeFrame.timeFormat"),
+               milesFormat    = bundle.getString("CurrentAgeFrame.milesFormat");
+
+        SimpleDateFormat sdf  = new SimpleDateFormat(longDateFormat);
+        DecimalFormat df      = new DecimalFormat();
+        double synodicAge = moonFx.getSynodicPhase(),
+               julianDate = moonFx.getJulianDate();
+
+        String phaseName = MoonPhaseNames.getPhaseName(synodicAge);
+        Date date = moonFx.getDate();
+
+        // current date and moonphase name
+        moonData.add(new MoonDataItem("Current Date: ", sdf.format(date.getTime())));
+        moonData.add(new MoonDataItem("Current Phase: ", phaseName));
+
+        moonData.add(new MoonDataItem("Julian Date: ", Double.toString(julianDate)));
+        moonData.add(new MoonDataItem("Moon's Age: ", Double.toString(Math.round(synodicAge)) + " days since New Moon"));
+        moonData.add(new MoonDataItem("Angle: ", Double.toString(Math.round(moonFx.getPhaseAngle(synodicAge)))));
+        moonData.add(new MoonDataItem("Percent Illuminated: ", Math.round(moonFx.getIlluminatedRatio(synodicAge) * 100) + "%"));
+
+        setupLabels();
+    }
+
+
+    /**
+     * Create and position labels
+     *
+     * @return void
+     */
     private void setupLabels()
     {
         // two labels (label/value)
